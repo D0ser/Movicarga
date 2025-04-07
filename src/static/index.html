@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Dashboard de Ventas</title>
+		<link rel="stylesheet" href="styles.css" />
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	</head>
+	<body>
+		<script>
+			// Agregar al inicio del archivo
+			if (!sessionStorage.getItem("userRole")) {
+				window.location.href = "login.html";
+			}
+		</script>
+		// ...resto del código existente...
+		<div class="container">
+			<header>
+				<h1>Dashboard de Ventas Anuales</h1>
+			</header>
+
+			<div class="data-input">
+				<h2>Ingreso de Datos Mensuales</h2>
+				<form id="salesForm">
+					<input type="month" id="date" required />
+					<input type="number" id="amount" placeholder="Monto" required />
+					<button type="submit">Agregar</button>
+				</form>
+			</div>
+
+			<div class="charts-container">
+				<div class="chart">
+					<canvas id="yearlyChart"></canvas>
+				</div>
+				<div class="chart">
+					<canvas id="monthlyChart"></canvas>
+				</div>
+			</div>
+
+			<div class="table-container">
+				<table id="salesTable">
+					<thead>
+						<tr>
+							<th>Mes</th>
+							<th>Ventas</th>
+							<th>Comparación Anual</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>
