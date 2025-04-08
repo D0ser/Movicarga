@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Configuración - Movicarga</title>
+		<link rel="stylesheet" href="css/styles.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+	</head>
+	<body>
+		<script>
+			if (!sessionStorage.getItem("userRole")) {
+				window.location.href = "login.html";
+			}
+		</script>
+		<div class="wrapper">
+			<div class="sidebar">
+				<div class="sidebar-header">
+					<button id="sidebar-toggle">
+						<i class="fas fa-bars"></i>
+					</button>
+					<i class="fas fa-truck-moving"></i>
+					<span>MOVICARGA</span>
+				</div>
+				<nav class="sidebar-nav">
+					<a href="index.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+					<a href="ventas.html"><i class="fas fa-cash-register"></i> Ventas</a>
+					<a href="compras.html"><i class="fas fa-shopping-cart"></i> Compras</a>
+					<a href="compras-sin-factura.html"><i class="fas fa-file-invoice"></i> Compras sin factura</a>
+					<a href="detracciones.html"><i class="fas fa-percentage"></i> Detracciones</a>
+					<a href="empresas.html"><i class="fas fa-building"></i> Empresas</a>
+					<a href="conductores.html"><i class="fas fa-id-card"></i> Lista de conductores</a>
+					<a href="flota.html"><i class="fas fa-truck"></i> Flota</a>
+					<a href="otras-listas.html"><i class="fas fa-list"></i> Otras listas</a>
+					<a href="configuracion.html" class="active"><i class="fas fa-cog"></i> Configuración</a>
+				</nav>
+				<div class="sidebar-footer">
+					<a href="login.html" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+				</div>
+			</div>
+			<div class="main-content">
+				<div class="top-bar">
+					<div class="user-info">
+						<i class="fas fa-user"></i>
+						<span id="username-display"></span>
+					</div>
+				</div>
+				<div class="container">
+					<header>
+						<h1>Configuración del Sistema</h1>
+					</header>
+					<div class="config-sections">
+						<section class="config-section">
+							<h2>Perfil de Usuario</h2>
+							<form id="perfilForm">
+								<input type="text" id="nombre" placeholder="Nombre completo" />
+								<input type="email" id="email" placeholder="Correo electrónico" />
+								<input type="password" id="passwordActual" placeholder="Contraseña actual" />
+								<input type="password" id="passwordNueva" placeholder="Nueva contraseña" />
+								<input type="password" id="passwordConfirmar" placeholder="Confirmar contraseña" />
+								<button type="submit">Actualizar Perfil</button>
+							</form>
+						</section>
+
+						<section class="config-section">
+							<h2>Configuración de Empresa</h2>
+							<form id="empresaForm">
+								<input type="text" id="nombreEmpresa" placeholder="Nombre de la empresa" />
+								<input type="text" id="ruc" placeholder="RUC" />
+								<input type="text" id="direccion" placeholder="Dirección" />
+								<input type="tel" id="telefono" placeholder="Teléfono" />
+								<input type="email" id="emailEmpresa" placeholder="Email de la empresa" />
+								<button type="submit">Guardar Información</button>
+							</form>
+						</section>
+
+						<section class="config-section">
+							<h2>Preferencias del Sistema</h2>
+							<form id="preferenciasForm">
+								<div class="form-group">
+									<label>Tema del Sistema:</label>
+									<select id="tema">
+										<option value="claro">Tema Claro</option>
+										<option value="oscuro">Tema Oscuro</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Idioma:</label>
+									<select id="idioma">
+										<option value="es">Español</option>
+										<option value="en">English</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Notificaciones:</label>
+									<div class="checkbox-group">
+										<input type="checkbox" id="notifVentas" /> Ventas <input type="checkbox" id="notifCompras" /> Compras <input type="checkbox" id="notifDetracciones" /> Detracciones
+										<input type="checkbox" id="notifMantenimiento" /> Mantenimiento
+									</div>
+								</div>
+								<button type="submit">Guardar Preferencias</button>
+							</form>
+						</section>
+
+						<section class="config-section">
+							<h2>Gestión de Usuarios</h2>
+							<div class="table-container">
+								<table id="usuariosTable">
+									<thead>
+										<tr>
+											<th>Usuario</th>
+											<th>Rol</th>
+											<th>Estado</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+							<button id="nuevoUsuario" class="mt-3">Agregar Usuario</button>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/sidebar.js"></script>
+	</body>
+</html>

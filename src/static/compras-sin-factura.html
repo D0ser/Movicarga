@@ -3,12 +3,9 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="description" content="Sistema de gestión Movicarga" />
-		<title>Dashboard - Movicarga</title>
+		<title>Compras sin Factura - Movicarga</title>
 		<link rel="stylesheet" href="css/styles.css" />
-		<link rel="stylesheet" href="css/notifications.css" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 	</head>
 	<body>
 		<script>
@@ -26,10 +23,10 @@
 					<span>MOVICARGA</span>
 				</div>
 				<nav class="sidebar-nav">
-					<a href="index.html" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
+					<a href="index.html"><i class="fas fa-chart-line"></i> Dashboard</a>
 					<a href="ventas.html"><i class="fas fa-cash-register"></i> Ventas</a>
 					<a href="compras.html"><i class="fas fa-shopping-cart"></i> Compras</a>
-					<a href="compras-sin-factura.html"><i class="fas fa-file-invoice"></i> Compras sin factura</a>
+					<a href="compras-sin-factura.html" class="active"><i class="fas fa-file-invoice"></i> Compras sin factura</a>
 					<a href="detracciones.html"><i class="fas fa-percentage"></i> Detracciones</a>
 					<a href="empresas.html"><i class="fas fa-building"></i> Empresas</a>
 					<a href="conductores.html"><i class="fas fa-id-card"></i> Lista de conductores</a>
@@ -50,34 +47,31 @@
 				</div>
 				<div class="container">
 					<header>
-						<h1>Dashboard de Ventas Anuales</h1>
+						<h1>Registro de Compras sin Factura</h1>
 					</header>
-
 					<div class="data-input">
-						<h2>Ingreso de Datos Mensuales</h2>
-						<form id="salesForm">
-							<input type="month" id="date" required />
-							<input type="number" id="amount" placeholder="Monto" required />
-							<button type="submit">Agregar</button>
+						<h2>Nueva Compra sin Factura</h2>
+						<form id="comprasSinFacturaForm">
+							<input type="date" id="fecha" required />
+							<input type="text" id="proveedor" placeholder="Proveedor/Vendedor" required />
+							<input type="text" id="descripcion" placeholder="Descripción" required />
+							<input type="number" id="monto" placeholder="Monto" required />
+							<input type="text" id="responsable" placeholder="Responsable de compra" required />
+							<textarea id="observaciones" placeholder="Observaciones"></textarea>
+							<button type="submit">Registrar Compra</button>
 						</form>
 					</div>
-
-					<div class="charts-container">
-						<div class="chart">
-							<canvas id="yearlyChart"></canvas>
-						</div>
-						<div class="chart">
-							<canvas id="monthlyChart"></canvas>
-						</div>
-					</div>
-
 					<div class="table-container">
-						<table id="salesTable">
+						<table id="comprasSinFacturaTable">
 							<thead>
 								<tr>
-									<th>Mes</th>
-									<th>Ventas</th>
-									<th>Comparación Anual</th>
+									<th>Fecha</th>
+									<th>Proveedor</th>
+									<th>Descripción</th>
+									<th>Monto</th>
+									<th>Responsable</th>
+									<th>Observaciones</th>
+									<th>Acciones</th>
 								</tr>
 							</thead>
 							<tbody></tbody>
@@ -86,9 +80,6 @@
 				</div>
 			</div>
 		</div>
-		<script src="js/session.js"></script>
-		<script src="js/notifications.js"></script>
 		<script src="js/sidebar.js"></script>
-		<script src="js/charts.js"></script>
 	</body>
 </html>
