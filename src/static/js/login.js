@@ -5,8 +5,30 @@ class AuthManager {
 
     setupEventListeners() {
         const form = document.getElementById('loginForm');
+        const togglePasswordBtn = document.querySelector('.toggle-password');
+
         if (form) {
             form.addEventListener('submit', this.handleLogin.bind(this));
+        }
+
+        if (togglePasswordBtn) {
+            togglePasswordBtn.addEventListener('click', this.togglePasswordVisibility.bind(this));
+        }
+    }
+
+    togglePasswordVisibility(e) {
+        const button = e.currentTarget;
+        const input = document.getElementById('password');
+        const icon = button.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
         }
     }
 
@@ -41,7 +63,7 @@ class AuthManager {
         if (username === validUser.username && password === validUser.password) {
             this.handleSuccessfulLogin(validUser);
         } else {
-            NotificationManager.error('Usuario o contraseña incorrectos');
+            this.handleFailedLogin();
         }
     }
 
@@ -54,6 +76,13 @@ class AuthManager {
         setTimeout(() => {
             window.location.href = 'index.html';
         }, 1000);
+    }
+
+    handleFailedLogin() {
+        NotificationManager.error('Usuario o contraseña incorrectos');
+        const passwordInput = document.getElementById('password');
+        passwordInput.value = '';
+        passwordInput.focus();
     }
 }
 
