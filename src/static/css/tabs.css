@@ -1,0 +1,560 @@
+/**
+ * Estilos para navegación por pestañas en formularios modales
+ */
+
+.tabs-container {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+/* Contenido de las pestañas */
+.tab-content {
+	display: none;
+	animation: fadeEffect 0.5s;
+	padding: 10px 5px;
+	overflow: visible; /* Asegurarse de que el contenido no desborde */
+	overflow-x: hidden; /* Evitar scroll horizontal */
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.tab-content.active {
+	display: block;
+}
+
+/* Secciones de formulario dentro de las pestañas */
+.form-section {
+	margin-bottom: 24px;
+	padding: 20px;
+	background-color: #f9f9f9;
+	border-radius: 8px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+	transition: all 0.3s ease;
+	width: 100%;
+	box-sizing: border-box;
+	overflow-x: hidden;
+}
+
+/* Estilo específico para las pestañas 1, 2 y 3 */
+#ventasTabsContainer .tab-content:nth-child(3) .form-section,
+#ventasTabsContainer .tab-content:nth-child(4) .form-section,
+#ventasTabsContainer .tab-content:nth-child(5) .form-section {
+	width: 85%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.form-section:hover {
+	box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h3 {
+	margin-top: 0;
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e0e0e0;
+	color: var(--primary-color, #1a237e);
+	font-size: 1.1rem;
+	font-weight: 600;
+}
+
+/* Grid para formularios dentro de las secciones */
+.form-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+	gap: 25px;
+	margin-bottom: 10px;
+}
+
+/* Grid para primera, segunda y tercera pestaña - anchos más compactos */
+.tab-content:nth-child(1) .form-grid,
+.tab-content:nth-child(2) .form-grid,
+.tab-content:nth-child(3) .form-grid {
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 30px;
+}
+
+.tab-content:nth-child(3) .form-grid,
+.tab-content:nth-child(4) .form-grid,
+.tab-content:nth-child(5) .form-grid {
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 30px;
+	max-width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Para asegurar que todos los campos son visibles en las diferentes pestañas */
+.tab-content:nth-child(1) .form-grid,
+.tab-content:nth-child(2) .form-grid,
+.tab-content:nth-child(3) .form-grid,
+.tab-content:nth-child(4) .form-grid,
+.tab-content:nth-child(5) .form-grid {
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 20px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* Sección documentos relacionados (primera pestaña) */
+#ventasTabsContainer .tab-content:nth-child(3) .form-section:nth-child(2) .form-grid {
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* Sección información económica (segunda pestaña) */
+#ventasTabsContainer .tab-content:nth-child(4) .form-section:nth-child(1) .form-grid {
+	max-width: 90%;
+}
+
+/* Sección condiciones de pago (segunda pestaña) */
+#ventasTabsContainer .tab-content:nth-child(4) .form-section:nth-child(2) .form-grid {
+	max-width: 90%;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 25px;
+}
+
+/* Sección datos del cliente (tercera pestaña) */
+#ventasTabsContainer .tab-content:nth-child(5) .form-section:nth-child(1) .form-grid {
+	max-width: 90%;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* Grupo de form para cada input */
+.form-group {
+	margin-bottom: 15px;
+	position: relative;
+	width: 100%;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 500;
+	color: #444;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 1rem;
+	transition: all 0.2s ease;
+	box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+	border-color: var(--primary-color, #1a237e);
+	box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+	outline: none;
+}
+
+/* Campo de observaciones */
+.form-section textarea {
+	min-height: 100px;
+	resize: vertical;
+}
+
+/* Contador de pasos completados */
+.progress-indicator {
+	display: flex;
+	justify-content: space-between;
+	margin: 20px 0;
+	position: relative;
+}
+
+.progress-indicator::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background-color: #e0e0e0;
+	transform: translateY(-50%);
+	z-index: 1;
+}
+
+.progress-step {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background-color: #e0e0e0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 600;
+	color: #666;
+	position: relative;
+	z-index: 2;
+	cursor: pointer; /* Hacer los números clickeables */
+	transition: all 0.2s ease;
+}
+
+.progress-step:hover {
+	transform: scale(1.1);
+	background-color: #d0d0d0;
+}
+
+.progress-step.completed {
+	background-color: var(--secondary-color, #f39200);
+	color: #fff;
+}
+
+/* Tooltip mejorado para los steps */
+.progress-step::before {
+	content: attr(title);
+	position: absolute;
+	bottom: -30px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: rgba(0, 0, 0, 0.7);
+	color: white;
+	padding: 5px 10px;
+	border-radius: 4px;
+	font-size: 0.8rem;
+	white-space: nowrap;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.2s ease;
+}
+
+.progress-step:hover::before {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Animación de cambio entre pestañas */
+@keyframes fadeEffect {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Navegación entre pestañas */
+.tabs-navigation {
+	display: flex;
+	flex-wrap: nowrap;
+	overflow-x: auto;
+	border-bottom: 2px solid #eaeaea;
+	margin-bottom: 20px;
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Ocultar scrollbar para Chrome, Safari y Opera */
+.tabs-navigation::-webkit-scrollbar {
+	display: none;
+}
+
+.tab-button {
+	padding: 12px 20px;
+	border: none;
+	background: none;
+	font-weight: 600;
+	color: #666;
+	cursor: pointer;
+	position: relative;
+	white-space: nowrap;
+	transition: all 0.2s ease;
+}
+
+.tab-button:hover {
+	color: var(--primary-color, #1a237e);
+}
+
+.tab-button.active {
+	color: var(--primary-color, #1a237e);
+}
+
+.tab-button.active::after {
+	content: "";
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background-color: var(--primary-color, #1a237e);
+}
+
+.tab-button .tab-icon {
+	margin-right: 8px;
+	opacity: 0.7;
+}
+
+.tab-button.active .tab-icon {
+	opacity: 1;
+}
+
+/* Navegación entre pestañas */
+.tabs-actions {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 15px;
+	margin-top: 30px;
+	padding-top: 20px;
+	border-top: 1px solid #eaeaea;
+}
+
+/* Ajustes para los botones de acción */
+.tabs-actions button {
+	min-height: 42px;
+}
+
+/* En la primera pestaña, alinear hacia la derecha */
+.tab-content:first-child .tabs-actions {
+	grid-template-columns: 1fr 1fr;
+	justify-content: end;
+}
+
+.tab-content:first-child .tabs-actions .btn-next-tab {
+	grid-column: 2;
+}
+
+/* En pestañas intermedias, distribuir anterior y siguiente */
+.tab-content:not(:first-child):not(:last-child) .tabs-actions {
+	grid-template-columns: 1fr 1fr;
+}
+
+.tab-content:not(:first-child):not(:last-child) .tabs-actions .btn-prev-tab {
+	justify-self: start;
+}
+
+.tab-content:not(:first-child):not(:last-child) .tabs-actions .btn-next-tab {
+	justify-self: end;
+}
+
+/* En última pestaña, distribuir los tres botones */
+.tab-content:last-child .btn-prev-tab {
+	grid-column: 1;
+}
+
+.tab-content:last-child .final-tab-actions {
+	grid-column: 2 / span 2;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+
+/* Botones de acción en la última pestaña */
+.final-tab-actions {
+	display: flex;
+	gap: 10px;
+	flex-grow: 1;
+	justify-content: flex-end;
+}
+
+/* Ocultar los botones de acción del final del formulario cuando están en la última pestaña */
+.hidden-actions {
+	display: none;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+	.form-grid {
+		grid-template-columns: 1fr !important; /* Forzar una sola columna */
+		gap: 15px;
+		max-width: 100% !important; /* Asegurar que no exceda el ancho del contenedor */
+		width: 100%;
+	}
+
+	/* Desactivar múltiples columnas en móvil para todas las secciones */
+	.tab-content:nth-child(1) .form-grid,
+	.tab-content:nth-child(2) .form-grid,
+	.tab-content:nth-child(3) .form-grid,
+	.tab-content:nth-child(4) .form-grid,
+	.tab-content:nth-child(5) .form-grid,
+	#ventasTabsContainer .tab-content:nth-child(3) .form-section:nth-child(2) .form-grid,
+	#ventasTabsContainer .tab-content:nth-child(4) .form-section:nth-child(1) .form-grid,
+	#ventasTabsContainer .tab-content:nth-child(4) .form-section:nth-child(2) .form-grid,
+	#ventasTabsContainer .tab-content:nth-child(5) .form-section:nth-child(1) .form-grid {
+		grid-template-columns: 1fr !important;
+		gap: 15px;
+		width: 100%;
+		max-width: 100%;
+		margin: 0;
+	}
+
+	/* Asegurarse de que todas las pestañas tienen el mismo tratamiento */
+	.tab-content:nth-child(1) .form-grid,
+	.tab-content:nth-child(2) .form-grid,
+	.tab-content:nth-child(3) .form-grid,
+	.tab-content:nth-child(4) .form-grid,
+	.tab-content:nth-child(5) .form-grid,
+	#ventasTabsContainer .tab-content:nth-child(1) .form-section .form-grid,
+	#ventasTabsContainer .tab-content:nth-child(2) .form-section .form-grid,
+	#ventasTabsContainer .tab-content:nth-child(3) .form-section .form-grid,
+	#ventasTabsContainer .tab-content:nth-child(4) .form-section .form-grid {
+		grid-template-columns: 1fr !important;
+		gap: 12px;
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
+		margin: 0;
+	}
+
+	/* Ajustes para las secciones en móvil */
+	.form-section {
+		padding: 15px;
+		margin-bottom: 20px;
+		width: 100% !important; /* Forzar ancho completo */
+		max-width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		box-sizing: border-box;
+		overflow-x: hidden; /* Evitar scroll horizontal */
+	}
+
+	#ventasTabsContainer .tab-content:nth-child(3) .form-section,
+	#ventasTabsContainer .tab-content:nth-child(4) .form-section,
+	#ventasTabsContainer .tab-content:nth-child(5) .form-section {
+		width: 95% !important; /* Forzar ancho */
+		margin-left: auto;
+		margin-right: auto;
+		box-sizing: border-box;
+	}
+
+	/* Sección documentos relacionados - ajustar en móvil */
+	#ventasTabsContainer .tab-content:nth-child(3) .form-section:nth-child(2) {
+		width: 95% !important;
+		padding: 15px;
+		margin: 0 auto 20px auto;
+	}
+
+	/* Campos de texto con ancho completo */
+	.form-group input,
+	.form-group select,
+	.form-group textarea {
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.tabs-navigation {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		padding-bottom: 5px;
+		display: flex;
+		margin-bottom: 15px;
+	}
+
+	.tab-button {
+		padding: 10px 15px;
+		font-size: 0.9rem;
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+
+	/* Para dispositivos móviles, apilar los botones en la última pestaña */
+	.tab-content:last-child .tabs-actions {
+		grid-template-columns: 1fr;
+	}
+
+	.tab-content:last-child .btn-prev-tab {
+		grid-column: 1;
+	}
+
+	.tab-content:last-child .final-tab-actions {
+		grid-column: 1;
+		grid-template-columns: 1fr 1fr;
+		margin-top: 10px;
+	}
+
+	/* Ajustar espacio entre progress steps en móvil */
+	.progress-step {
+		width: 25px;
+		height: 25px;
+		font-size: 0.9rem;
+	}
+
+	/* Ocultar los tooltips en móvil para evitar problemas de espacio */
+	.progress-step::before {
+		display: none;
+	}
+
+	/* Para pantallas muy pequeñas, apilar también los botones de acción */
+	@media (max-width: 480px) {
+		.tabs-navigation {
+			justify-content: flex-start;
+		}
+
+		.tab-content:last-child .final-tab-actions {
+			grid-template-columns: 1fr;
+		}
+
+		.tab-content:last-child .btn-prev-tab,
+		.tab-content:last-child .final-tab-actions button {
+			width: 100%;
+			margin-bottom: 8px;
+		}
+
+		.tabs-actions {
+			grid-template-columns: 1fr;
+			gap: 10px;
+		}
+
+		.form-section {
+			width: 95% !important;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 12px;
+			overflow-x: hidden;
+		}
+
+		/* Campos de formulario con menos padding en móviles pequeños */
+		.form-group input,
+		.form-group select,
+		.form-group textarea {
+			padding: 8px;
+		}
+
+		.form-section {
+			padding: 10px;
+		}
+
+		/* Optimizar espacio para los inputs */
+		.form-group {
+			margin-bottom: 10px;
+		}
+
+		.form-group label {
+			margin-bottom: 4px;
+			font-size: 0.9rem;
+		}
+	}
+}
+
+/* Asegurar que los elementos están bien alineados en escritorio */
+@media (min-width: 769px) {
+	#ventasTabsContainer .tab-content:nth-child(4) .form-section:nth-child(2) .form-group {
+		margin-bottom: 0;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	#ventasTabsContainer .tab-content:nth-child(4) .form-section:nth-child(2) .form-group label {
+		margin-bottom: 8px;
+	}
+
+	#ventasTabsContainer .tab-content:nth-child(4) .form-section:nth-child(2) .form-group input,
+	#ventasTabsContainer .tab-content:nth-child(4) .form-section:nth-child(2) .form-group select {
+		flex: 1;
+	}
+
+	/* Grid central para móvil */
+	.form-grid {
+		max-width: 95%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}

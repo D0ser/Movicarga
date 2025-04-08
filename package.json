@@ -1,0 +1,23 @@
+{
+	"name": "movicarga",
+	"version": "1.0.0",
+	"description": "Sistema de gestión para Movicarga",
+	"main": "index.js",
+	"scripts": {
+		"start": "http-server ./src/static -p 3000 -c-1",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"transporte",
+		"logística",
+		"gestión"
+	],
+	"author": "Movicarga",
+	"license": "ISC",
+	"devDependencies": {
+		"http-server": "^14.1.1"
+	},
+	"dependencies": {
+		"sweetalert2": "^11.7.32"
+	}
+}

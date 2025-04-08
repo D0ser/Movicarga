@@ -1,0 +1,483 @@
+/**
+ * Estilos específicos para ventanas modales
+ */
+.modal {
+	/* Inicialmente oculto */
+	display: none;
+
+	/* Posicionamiento fijo a pantalla completa */
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	/* Capa oscura con blur */
+	background-color: rgba(0, 0, 0, 0.65);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+
+	/* Centrar contenido con flexbox */
+	align-items: flex-start;
+	justify-content: center;
+
+	/* Transición suave */
+	opacity: 0;
+	transition: opacity 0.3s ease;
+
+	/* Mejorar el manejo de scroll en dispositivos móviles */
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	padding: 30px 0;
+}
+
+/* Cuando el modal está visible */
+.modal.show {
+	display: flex !important;
+	opacity: 1;
+}
+
+.modal-content {
+	/* Estilos del contenedor del modal */
+	background-color: #ffffff;
+	border-radius: 10px;
+	box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+	padding: 25px;
+	width: 70%; /* Reducir al 70% como solicitado */
+	max-width: 800px;
+
+	/* Eliminar restricción de alto fijo */
+	max-height: none;
+
+	/* Animación de entrada */
+	transform: translateY(30px);
+	opacity: 0;
+	transition: transform 0.3s ease, opacity 0.3s ease;
+
+	/* Posición relativa para elementos internos */
+	position: relative;
+	margin: 0;
+
+	/* Quitar scrollbar vertical en la versión de escritorio */
+	overflow: hidden;
+}
+
+/* Modal con formulario */
+.form-modal {
+	width: 80%;
+	max-width: 980px;
+}
+
+.form-modal .modal-content {
+	width: 100%;
+	overflow: visible;
+	padding: 25px;
+	max-height: 90vh; /* Altura máxima para evitar que se salga de la pantalla */
+	overflow-y: auto; /* Permitir scroll cuando sea necesario */
+}
+
+/* Inputs y selects en modales */
+.form-modal input,
+.form-modal select,
+.form-modal textarea {
+	background-color: #fff;
+	border: 1px solid #e0e0e0;
+	transition: all 0.2s ease;
+}
+
+.form-modal input:hover,
+.form-modal select:hover,
+.form-modal textarea:hover {
+	border-color: #bbbbbb;
+}
+
+/* Título del modal con mejor espaciado */
+.form-modal h2 {
+	margin-bottom: 25px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+/* Título dinámico para móvil */
+.mobile-tab-title {
+	display: none;
+	text-align: center;
+	margin-bottom: 15px;
+	font-size: 1.1rem;
+	color: var(--primary-color, #1a237e);
+	font-weight: 600;
+}
+
+/* Estilo para campos con error de validación */
+.invalid {
+	border-color: #e74c3c !important;
+	box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1) !important;
+	animation: shake 0.5s;
+}
+
+.error-message {
+	color: #e74c3c;
+	font-size: 0.8rem;
+	margin-top: 4px;
+	display: block;
+}
+
+@keyframes shake {
+	0%,
+	100% {
+		transform: translateX(0);
+	}
+	10%,
+	30%,
+	50%,
+	70%,
+	90% {
+		transform: translateX(-5px);
+	}
+	20%,
+	40%,
+	60%,
+	80% {
+		transform: translateX(5px);
+	}
+}
+
+/* Mejora en la disposición de los elementos del formulario */
+.form-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 18px;
+	margin-bottom: 25px;
+	width: 100%;
+}
+
+/* Anchura específica para los formularios de facturas, económicos y cliente */
+.tab-content:nth-child(1) .form-grid,
+.tab-content:nth-child(2) .form-grid,
+.tab-content:nth-child(3) .form-grid {
+	max-width: 95%;
+	margin: 0 auto;
+}
+
+/* Secciones del formulario */
+.form-section {
+	border-bottom: 1px solid #eaeaea;
+	margin-bottom: 25px;
+	padding-bottom: 15px;
+}
+
+/* Secciones del formulario con mejor separación */
+.form-section {
+	border-bottom: 1px solid #eaeaea;
+	margin-bottom: 25px;
+	padding-bottom: 15px;
+}
+
+/* Estilos específicos para cada categoría de pestaña */
+.tab-content:nth-child(3) .form-section h3,
+.tab-content:nth-child(4) .form-section h3,
+.tab-content:nth-child(5) .form-section h3 {
+	color: var(--primary-color, #1a237e);
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 20px;
+	display: flex;
+	align-items: center;
+}
+
+/* Iconos en los encabezados */
+.form-section h3 i {
+	margin-right: 10px;
+	font-size: 18px;
+}
+
+/* Separación entre grupos de formularios */
+.form-section + .form-section {
+	margin-top: 30px;
+	padding-top: 10px;
+}
+
+/* Estilos para fieldsets o secciones agrupadas */
+.form-section .field-group {
+	border: 1px solid #eaeaea;
+	padding: 15px;
+	border-radius: 6px;
+	margin-bottom: 20px;
+}
+
+/* Secciones de Información económica */
+.tab-content:nth-child(4) .form-section {
+	background-color: rgba(249, 249, 252, 0.7);
+}
+
+/* Secciones de cliente */
+.tab-content:nth-child(5) .form-section {
+	background-color: rgba(249, 251, 255, 0.7);
+}
+
+.form-section h3 {
+	margin: 0 0 18px;
+	color: var(--primary-color, #1a237e);
+	font-size: 16px;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+}
+
+.form-section h3 i {
+	margin-right: 8px;
+}
+
+/* Acciones del formulario siempre al final */
+.form-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 12px;
+	margin-top: 30px;
+	border-top: 1px solid #eaeaea;
+	padding-top: 20px;
+}
+
+.form-actions button,
+.tabs-actions button {
+	min-width: 140px;
+	padding: 10px 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	font-weight: 500;
+	transition: all 0.2s ease;
+}
+
+/* Cuando el modal está visible, animar su contenido */
+.modal.show .modal-content {
+	transform: translateY(0);
+	opacity: 1;
+}
+
+/* Botón para cerrar el modal */
+.close-modal {
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	font-size: 28px;
+	font-weight: bold;
+	cursor: pointer;
+	color: #888;
+	transition: all 0.2s ease;
+	line-height: 0.8;
+	padding: 5px;
+}
+
+.close-modal:hover {
+	color: #333;
+	transform: rotate(90deg);
+}
+
+/* Mejorar el scroll para modales con mucho contenido */
+.scroll-container {
+	max-height: 70vh;
+	overflow-y: auto;
+	padding-right: 10px; /* Espacio para el scrollbar */
+	margin-right: -10px; /* Compensar el padding */
+	scrollbar-width: thin; /* Scrollbar delgado para Firefox */
+	scrollbar-color: #d0d0d0 transparent; /* Color del scrollbar para Firefox */
+	-webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+}
+
+/* Estilos para scrollbar personalizados (WebKit) */
+.scroll-container::-webkit-scrollbar {
+	width: 6px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+	background-color: #d0d0d0;
+	border-radius: 6px;
+}
+
+/* Mejorar visualización de detalles de venta */
+.venta-details {
+	padding: 10px;
+	max-height: 70vh;
+	overflow-y: auto;
+}
+
+.venta-details h3 {
+	color: var(--primary-color, #1a237e);
+	font-size: 1.1rem;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #e0e0e0;
+	padding-bottom: 5px;
+}
+
+.venta-details h3:first-child {
+	margin-top: 0;
+}
+
+.venta-details p {
+	margin: 8px 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.venta-details p strong {
+	flex-basis: 40%;
+	font-weight: 600;
+	color: #444;
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+	.modal {
+		align-items: flex-start; /* Alinear al inicio para mejor scroll */
+		padding: 0;
+	}
+
+	.modal-content {
+		width: 100%;
+		max-width: 100%;
+		padding: 20px 15px;
+		margin: 0;
+		border-radius: 0;
+		height: 100vh;
+		overflow-y: auto;
+	}
+
+	.form-grid {
+		grid-template-columns: 1fr !important; /* Forzar una sola columna en móvil */
+		gap: 12px;
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%; /* Asegurar que ocupe todo el ancho disponible */
+	}
+
+	/* Todos los campos de formulario uno sobre otro en móvil */
+	.form-group {
+		width: 100%;
+		margin-bottom: 15px;
+	}
+
+	/* Mostrar título dinámico en móvil */
+	.mobile-tab-title {
+		display: block;
+	}
+
+	/* Ocultar navegación de pestañas en móvil */
+	.tabs-navigation {
+		display: none !important;
+	}
+
+	.form-actions,
+	.tabs-actions {
+		flex-direction: column;
+		gap: 10px;
+		width: 100%;
+	}
+
+	.form-actions button,
+	.tabs-actions button {
+		width: 100%;
+	}
+
+	.form-modal {
+		width: 100%;
+		max-width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	/* Inputs y selects a ancho completo en móvil */
+	.form-modal input,
+	.form-modal select,
+	.form-modal textarea {
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	/* Evitar desbordamiento en secciones de formulario */
+	.form-section {
+		padding: 15px;
+		width: auto !important; /* Anular cualquier ancho fijo */
+		max-width: 100%; /* Asegurar que no exceda el ancho del contenedor */
+		overflow-x: hidden; /* Evitar scroll horizontal */
+		box-sizing: border-box; /* Incluir padding en el cálculo del ancho */
+	}
+
+	.tab-content:nth-child(3) .form-section,
+	.tab-content:nth-child(4) .form-section,
+	.tab-content:nth-child(5) .form-section {
+		padding: 15px;
+		margin-bottom: 15px;
+	}
+
+	/* Asegurar que los contenedores de las pestañas estén correctamente dimensionados */
+	.tabs-container {
+		width: 100%;
+		overflow-x: hidden;
+	}
+
+	.venta-details p {
+		flex-direction: column;
+		margin-bottom: 12px;
+	}
+
+	.venta-details p strong {
+		margin-bottom: 3px;
+	}
+}
+
+/* Ajustes para dispositivos muy pequeños */
+@media (max-width: 480px) {
+	.modal-content {
+		width: 95%;
+		padding: 15px 10px;
+	}
+
+	.form-modal {
+		width: 95%;
+	}
+
+	/* Reducir padding interno en móviles pequeños */
+	.form-section {
+		padding: 12px;
+	}
+
+	/* Evitar desbordamiento de contenido en secciones específicas */
+	#ventasTabsContainer .form-section:nth-child(2) .form-grid {
+		padding: 0;
+		margin: 0;
+	}
+
+	/* Reducir el margen entre campos para aprovechar espacio */
+	.form-group {
+		margin-bottom: 8px;
+	}
+
+	/* Reducir el padding de inputs para aprovechar espacio */
+	.form-group input,
+	.form-group select {
+		padding: 8px;
+	}
+}
+
+/* Ajustes para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+	.modal-content,
+	.form-modal {
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.form-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}

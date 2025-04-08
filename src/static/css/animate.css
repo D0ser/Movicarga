@@ -1,0 +1,138 @@
+/*!
+ * animate.css - https://animate.style/
+ * Version - 4.1.1
+ * Licensed under the MIT license - http://opensource.org/licenses/MIT
+ *
+ * Copyright (c) 2020 Animate.css
+ */
+
+:root {
+	--animate-duration: 0.3s;
+	--animate-delay: 0.3s;
+	--animate-repeat: 1;
+}
+
+.animate__animated {
+	animation-duration: var(--animate-duration);
+	animation-fill-mode: both;
+}
+
+/* Fading entrances */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+.animate__fadeIn {
+	animation-name: fadeIn;
+}
+
+@keyframes fadeInDown {
+	from {
+		opacity: 0;
+		transform: translate3d(0, -20px, 0);
+	}
+
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+.animate__fadeInDown {
+	animation-name: fadeInDown;
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translate3d(0, 20px, 0);
+	}
+
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+.animate__fadeInUp {
+	animation-name: fadeInUp;
+}
+
+/* Fading exits */
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+.animate__fadeOut {
+	animation-name: fadeOut;
+}
+
+@keyframes fadeOutDown {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+		transform: translate3d(0, 20px, 0);
+	}
+}
+.animate__fadeOutDown {
+	animation-name: fadeOutDown;
+}
+
+@keyframes fadeOutUp {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+		transform: translate3d(0, -20px, 0);
+	}
+}
+.animate__fadeOutUp {
+	animation-name: fadeOutUp;
+}
+
+/* Zooming entrances */
+@keyframes zoomIn {
+	from {
+		opacity: 0;
+		transform: scale3d(0.3, 0.3, 0.3);
+	}
+
+	50% {
+		opacity: 1;
+	}
+}
+.animate__zoomIn {
+	animation-name: zoomIn;
+}
+
+/* Zooming exits */
+@keyframes zoomOut {
+	from {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+		transform: scale3d(0.3, 0.3, 0.3);
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+.animate__zoomOut {
+	animation-name: zoomOut;
+}

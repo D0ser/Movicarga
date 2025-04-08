@@ -5,7 +5,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Ventas - Movicarga</title>
 		<link rel="stylesheet" href="css/styles.css" />
+		<link rel="stylesheet" href="css/notifications.css" />
+		<link rel="stylesheet" href="css/animate.css" />
+		<link rel="stylesheet" href="css/modals.css" />
+		<link rel="stylesheet" href="css/tabs.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" />
 	</head>
 	<body>
 		<script>
@@ -49,33 +54,277 @@
 					<header>
 						<h1>Registro de Ventas</h1>
 					</header>
-					<div class="data-input">
-						<h2>Nueva Venta</h2>
-						<form id="ventasForm">
-							<input type="date" id="fecha" required />
-							<input type="text" id="cliente" placeholder="Cliente" required />
-							<input type="text" id="factura" placeholder="Nº Factura" required />
-							<input type="number" id="monto" placeholder="Monto" required />
-							<button type="submit">Registrar Venta</button>
-						</form>
+
+					<div class="action-bar">
+						<button id="btnNuevaVenta" class="primary-btn"><i class="fas fa-plus-circle"></i> Nueva Venta</button>
+					</div>
+
+					<div class="table-filters">
+						<div class="search-box">
+							<input type="text" id="searchVentas" placeholder="Buscar ventas..." />
+							<i class="fas fa-search"></i>
+						</div>
+						<div class="date-filter">
+							<input type="date" id="fechaDesde" placeholder="Desde" />
+							<input type="date" id="fechaHasta" placeholder="Hasta" />
+							<button id="filtrarFechas" class="filter-btn"><i class="fas fa-filter"></i> Filtrar</button>
+						</div>
 					</div>
 					<div class="table-container">
 						<table id="ventasTable">
 							<thead>
 								<tr>
 									<th>Fecha</th>
-									<th>Cliente</th>
-									<th>Nº Factura</th>
-									<th>Monto</th>
+									<th>Serie - N° Fact.</th>
+									<th>Empresa</th>
+									<th>Monto flete</th>
+									<th>Total monto</th>
+									<th>Conductor</th>
+									<th>Estado</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
 							<tbody></tbody>
 						</table>
 					</div>
+
+					<!-- Modal para Ver Detalles - Estructura mejorada -->
+					<div class="modal" id="ventaDetailModal">
+						<div class="modal-content">
+							<span class="close-modal">&times;</span>
+							<h2><i class="fas fa-info-circle"></i> Detalles de venta</h2>
+							<div class="venta-details scroll-container"></div>
+						</div>
+					</div>
+
+					<!-- Modal para Nueva Venta / Editar Venta con sistema de pestañas -->
+					<div class="modal" id="ventaFormModal">
+						<div class="modal-content form-modal">
+							<span class="close-modal">&times;</span>
+							<h2><i class="fas fa-plus-circle"></i> <span id="modalTitle">Nueva Venta</span></h2>
+
+							<form id="ventasForm">
+								<!-- Contenedor de pestañas -->
+								<div id="ventasTabsContainer" class="tabs-container">
+									<!-- Progreso visual -->
+									<div class="progress-indicator">
+										<div class="progress-step completed" title="Datos de factura">1</div>
+										<div class="progress-step" title="Información económica">2</div>
+										<div class="progress-step" title="Datos del cliente">3</div>
+										<div class="progress-step" title="Datos de operación">4</div>
+									</div>
+
+									<!-- Título de la pestaña actual para móvil -->
+									<h3 class="mobile-tab-title">Datos de factura</h3>
+
+									<!-- Navegación de pestañas -->
+									<div class="tabs-navigation">
+										<button type="button" class="tab-button active"><i class="fas fa-file-invoice tab-icon"></i>Datos de factura</button>
+										<button type="button" class="tab-button"><i class="fas fa-coins tab-icon"></i>Información económica</button>
+										<button type="button" class="tab-button"><i class="fas fa-user-tie tab-icon"></i>Datos del cliente</button>
+										<button type="button" class="tab-button"><i class="fas fa-truck-moving tab-icon"></i>Datos de operación</button>
+									</div>
+
+									<!-- Contenido de pestañas -->
+
+									<!-- Pestaña 1: Datos de factura -->
+									<div class="tab-content active">
+										<div class="form-section">
+											<h3><i class="fas fa-file-alt"></i> Datos de factura</h3>
+											<div class="form-grid">
+												<div class="form-group">
+													<label for="fecha">Fecha:</label>
+													<input type="date" id="fecha" />
+												</div>
+
+												<div class="form-group">
+													<label for="serieFactura">Serie Factura:</label>
+													<input type="text" id="serieFactura" placeholder="Serie" />
+												</div>
+
+												<div class="form-group">
+													<label for="numeroFactura">N° Factura:</label>
+													<input type="text" id="numeroFactura" placeholder="Número" />
+												</div>
+											</div>
+										</div>
+
+										<div class="form-section">
+											<h3><i class="fas fa-clipboard-list"></i> Documentos relacionados</h3>
+											<div class="form-grid">
+												<div class="form-group">
+													<label for="documento">Documento:</label>
+													<input type="text" id="documento" placeholder="Número de documento" />
+												</div>
+
+												<div class="form-group">
+													<label for="guiaRemitente">Guía remitente:</label>
+													<input type="text" id="guiaRemitente" placeholder="Número de guía" />
+												</div>
+
+												<div class="form-group">
+													<label for="guiaTransportista">Guía transportista:</label>
+													<input type="text" id="guiaTransportista" placeholder="Número de guía" />
+												</div>
+											</div>
+										</div>
+
+										<div class="tabs-actions">
+											<div></div>
+											<!-- Espacio vacío para alinear -->
+											<button type="button" class="btn-next-tab primary-btn">Siguiente <i class="fas fa-arrow-right"></i></button>
+										</div>
+									</div>
+
+									<!-- Pestaña 2: Información económica -->
+									<div class="tab-content">
+										<div class="form-section">
+											<h3><i class="fas fa-calculator"></i> Información económica</h3>
+											<div class="form-grid">
+												<div class="form-group">
+													<label for="montoFlete">Monto de flete (S/):</label>
+													<input type="number" id="montoFlete" placeholder="0.00" step="0.01" />
+												</div>
+
+												<div class="form-group">
+													<label for="detraccion">Detracción (S/):</label>
+													<input type="number" id="detraccion" placeholder="0.00" step="0.01" />
+												</div>
+
+												<div class="form-group">
+													<label for="totalDeber">Total a deber (S/):</label>
+													<input type="number" id="totalDeber" placeholder="0.00" step="0.01" readonly />
+												</div>
+
+												<div class="form-group">
+													<label for="totalMonto">Total monto (S/):</label>
+													<input type="number" id="totalMonto" placeholder="0.00" step="0.01" />
+												</div>
+											</div>
+										</div>
+
+										<div class="form-section">
+											<h3><i class="fas fa-calendar-alt"></i> Condiciones de pago</h3>
+											<div class="form-grid payment-conditions">
+												<div class="form-group">
+													<label for="diasCredito">Días crédito:</label>
+													<input type="number" id="diasCredito" placeholder="0" min="0" />
+												</div>
+
+												<div class="form-group">
+													<label for="fechaVencimiento">Fecha vencimiento:</label>
+													<input type="date" id="fechaVencimiento" />
+												</div>
+
+												<div class="form-group">
+													<label for="estado">Estado:</label>
+													<select id="estado">
+														<option value="">Seleccione estado</option>
+														<option value="pendiente">Pendiente</option>
+														<option value="pagado">Pagado</option>
+														<option value="anulado">Anulado</option>
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<div class="tabs-actions">
+											<button type="button" class="btn-prev-tab secondary-btn"><i class="fas fa-arrow-left"></i> Anterior</button>
+											<button type="button" class="btn-next-tab primary-btn">Siguiente <i class="fas fa-arrow-right"></i></button>
+										</div>
+									</div>
+
+									<!-- Pestaña 3: Datos del cliente -->
+									<div class="tab-content">
+										<div class="form-section">
+											<h3><i class="fas fa-building"></i> Datos del cliente</h3>
+											<div class="form-grid">
+												<div class="form-group">
+													<label for="empresa">Empresa:</label>
+													<input type="text" id="empresa" placeholder="Nombre de empresa" />
+												</div>
+
+												<div class="form-group">
+													<label for="ruc">RUC:</label>
+													<input type="text" id="ruc" placeholder="Número de RUC" />
+												</div>
+											</div>
+										</div>
+
+										<div class="tabs-actions">
+											<button type="button" class="btn-prev-tab secondary-btn"><i class="fas fa-arrow-left"></i> Anterior</button>
+											<button type="button" class="btn-next-tab primary-btn">Siguiente <i class="fas fa-arrow-right"></i></button>
+										</div>
+									</div>
+
+									<!-- Pestaña 4: Datos de operación -->
+									<div class="tab-content">
+										<div class="form-section">
+											<h3><i class="fas fa-truck-loading"></i> Datos de operación</h3>
+											<div class="form-grid">
+												<div class="form-group">
+													<label for="conductor">Conductor:</label>
+													<select id="conductor">
+														<option value="">Seleccione un conductor</option>
+														<!-- Se llenará con JavaScript -->
+													</select>
+												</div>
+
+												<div class="form-group">
+													<label for="placaTracto">Placa tracto:</label>
+													<select id="placaTracto">
+														<option value="">Seleccione placa</option>
+														<!-- Se llenará con JavaScript -->
+													</select>
+												</div>
+
+												<div class="form-group">
+													<label for="placaCarreta">Placa carreta:</label>
+													<select id="placaCarreta">
+														<option value="">Seleccione placa</option>
+														<!-- Se llenará con JavaScript -->
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-section">
+											<h3><i class="fas fa-comment-alt"></i> Observaciones</h3>
+											<div class="form-group">
+												<textarea id="observacion" placeholder="Ingrese observaciones adicionales" rows="4"></textarea>
+											</div>
+										</div>
+
+										<div class="tabs-actions">
+											<button type="button" class="btn-prev-tab secondary-btn"><i class="fas fa-arrow-left"></i> Anterior</button>
+
+											<div class="final-tab-actions">
+												<button type="reset" class="secondary-btn"><i class="fas fa-times"></i> Limpiar</button>
+												<button type="submit" class="primary-btn"><i class="fas fa-save"></i> Registrar Venta</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- Los botones de acción finales se mantienen ocultos, ya que ahora están en la última pestaña -->
+								<div class="form-actions hidden-actions">
+									<button type="submit" class="primary-btn"><i class="fas fa-save"></i> Registrar Venta</button>
+									<button type="reset" class="secondary-btn"><i class="fas fa-times"></i> Limpiar</button>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
+		<script src="js/session.js"></script>
+		<script src="js/notifications.js"></script>
 		<script src="js/sidebar.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+		<script src="js/modal-checker.js"></script>
+		<script src="js/form-animations.js"></script>
+		<script src="js/tabs-manager.js"></script>
+		<script src="js/ventas.js"></script>
+		<script src="js/table-enhancer.js"></script>
 	</body>
 </html>
