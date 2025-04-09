@@ -1,0 +1,22 @@
+<!-- Ensure that buttons have proper pointer events and z-index -->
+<div class="table-container">
+	<!-- ...existing code... -->
+	<table>
+		<!-- ...existing code... -->
+		<tbody>
+			<tr *ngFor="let item of data">
+				<!-- ...existing code... -->
+				<td *ngFor="let column of columns">
+					<!-- ...existing code... -->
+					<div *ngIf="column.isAction" class="action-buttons">
+						<button *ngFor="let action of column.actions" [class]="action.class" style="cursor: pointer; position: relative; z-index: 10" (click)="$event.stopPropagation(); action.onClick(item)">
+							<i [class]="action.icon"></i>
+							{{ action.label }}
+						</button>
+					</div>
+					<!-- ...existing code... -->
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

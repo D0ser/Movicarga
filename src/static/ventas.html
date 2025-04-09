@@ -55,21 +55,82 @@
 						<h1>Registro de Ventas</h1>
 					</header>
 
-					<div class="action-bar">
-						<button id="btnNuevaVenta" class="primary-btn"><i class="fas fa-plus-circle"></i> Nueva Venta</button>
-					</div>
-
 					<div class="table-filters">
+						<div class="search-actions">
+							<button id="btnNuevaVenta" class="primary-btn action-btn"><i class="fas fa-plus-circle"></i> Nueva Venta</button>
+							<button id="btnVentaPrueba" class="secondary-btn action-btn"><i class="fas fa-vial"></i> Agregar venta de prueba</button>
+						</div>
+
 						<div class="search-box">
+							<select id="searchField" class="search-field">
+								<option value="all">Todos los campos</option>
+								<option value="empresa">Empresa</option>
+								<option value="factura">Serie/N° Factura</option>
+								<option value="ruc">RUC</option>
+								<option value="conductor">Conductor</option>
+								<option value="estado">Estado</option>
+							</select>
 							<input type="text" id="searchVentas" placeholder="Buscar ventas..." />
 							<i class="fas fa-search"></i>
 						</div>
+
 						<div class="date-filter">
-							<input type="date" id="fechaDesde" placeholder="Desde" />
-							<input type="date" id="fechaHasta" placeholder="Hasta" />
+							<select id="tipoFiltroFecha" class="filtro-tipo">
+								<option value="fecha">Por Fecha</option>
+								<option value="mes">Por Mes</option>
+								<option value="anio">Por Año</option>
+							</select>
+
+							<!-- Filtro por fecha específica (visible por defecto) -->
+							<div id="filtroFecha" class="filtro-contenedor active">
+								<input type="date" id="fechaDesde" placeholder="Desde" />
+								<input type="date" id="fechaHasta" placeholder="Hasta" />
+							</div>
+
+							<!-- Filtro por mes (oculto por defecto) -->
+							<div id="filtroMes" class="filtro-contenedor">
+								<select id="mesFiltro">
+									<option value="">Seleccionar mes</option>
+									<option value="01">Enero</option>
+									<option value="02">Febrero</option>
+									<option value="03">Marzo</option>
+									<option value="04">Abril</option>
+									<option value="05">Mayo</option>
+									<option value="06">Junio</option>
+									<option value="07">Julio</option>
+									<option value="08">Agosto</option>
+									<option value="09">Septiembre</option>
+									<option value="10">Octubre</option>
+									<option value="11">Noviembre</option>
+									<option value="12">Diciembre</option>
+								</select>
+								<select id="anioMesFiltro">
+									<!-- Se llenará con JavaScript -->
+								</select>
+							</div>
+
+							<!-- Filtro por año (oculto por defecto) -->
+							<div id="filtroAnio" class="filtro-contenedor">
+								<select id="anioFiltro">
+									<!-- Se llenará con JavaScript -->
+								</select>
+							</div>
+
 							<button id="filtrarFechas" class="filter-btn"><i class="fas fa-filter"></i> Filtrar</button>
 						</div>
 					</div>
+
+					<div class="pagination-container">
+						<div class="pagination-info">
+							<span id="paginationInfo">Mostrando 0-0 de 0 ventas</span>
+						</div>
+						<div class="pagination-controls">
+							<button id="prevPage" class="pagination-btn" disabled><i class="fas fa-chevron-left"></i> Anterior</button>
+							<div id="pageNumbers" class="page-numbers"></div>
+							<button id="nextPage" class="pagination-btn" disabled>Siguiente <i class="fas fa-chevron-right"></i></button>
+						</div>
+					</div>
+
 					<div class="table-container">
 						<table id="ventasTable">
 							<thead>
@@ -81,7 +142,7 @@
 									<th>Total monto</th>
 									<th>Conductor</th>
 									<th>Estado</th>
-									<th>Acciones</th>
+									<th class="actions-header">Acciones</th>
 								</tr>
 							</thead>
 							<tbody></tbody>
@@ -171,8 +232,12 @@
 
 										<div class="tabs-actions">
 											<div></div>
-											<!-- Espacio vacío para alinear -->
-											<button type="button" class="btn-next-tab primary-btn">Siguiente <i class="fas fa-arrow-right"></i></button>
+
+											<!-- Agregar botón de limpiar -->
+											<div class="tab-buttons-container">
+												<button type="button" class="btn-next-tab primary-btn">Siguiente <i class="fas fa-arrow-right"></i></button>
+												<button type="reset" class="secondary-btn btn-clean common-reset"><i class="fas fa-times"></i> Limpiar</button>
+											</div>
 										</div>
 									</div>
 
@@ -230,7 +295,12 @@
 
 										<div class="tabs-actions">
 											<button type="button" class="btn-prev-tab secondary-btn"><i class="fas fa-arrow-left"></i> Anterior</button>
-											<button type="button" class="btn-next-tab primary-btn">Siguiente <i class="fas fa-arrow-right"></i></button>
+
+											<!-- Agregar botón de limpiar -->
+											<div class="tab-buttons-container">
+												<button type="button" class="btn-next-tab primary-btn">Siguiente <i class="fas fa-arrow-right"></i></button>
+												<button type="reset" class="secondary-btn btn-clean common-reset"><i class="fas fa-times"></i> Limpiar</button>
+											</div>
 										</div>
 									</div>
 
@@ -253,7 +323,12 @@
 
 										<div class="tabs-actions">
 											<button type="button" class="btn-prev-tab secondary-btn"><i class="fas fa-arrow-left"></i> Anterior</button>
-											<button type="button" class="btn-next-tab primary-btn">Siguiente <i class="fas fa-arrow-right"></i></button>
+
+											<!-- Agregar botón de limpiar -->
+											<div class="tab-buttons-container">
+												<button type="button" class="btn-next-tab primary-btn">Siguiente <i class="fas fa-arrow-right"></i></button>
+												<button type="reset" class="secondary-btn btn-clean common-reset"><i class="fas fa-times"></i> Limpiar</button>
+											</div>
 										</div>
 									</div>
 
@@ -299,18 +374,18 @@
 											<button type="button" class="btn-prev-tab secondary-btn"><i class="fas fa-arrow-left"></i> Anterior</button>
 
 											<div class="final-tab-actions">
-												<button type="reset" class="secondary-btn"><i class="fas fa-times"></i> Limpiar</button>
 												<button type="submit" class="primary-btn"><i class="fas fa-save"></i> Registrar Venta</button>
+												<button type="reset" class="secondary-btn btn-clean common-reset"><i class="fas fa-times"></i> Limpiar</button>
 											</div>
 										</div>
 									</div>
 								</div>
 
-								<!-- Los botones de acción finales se mantienen ocultos, ya que ahora están en la última pestaña -->
-								<div class="form-actions hidden-actions">
+								<!-- Eliminamos este bloque ya que ahora los botones están integrados en cada pestaña -->
+								<!-- <div class="form-actions">
 									<button type="submit" class="primary-btn"><i class="fas fa-save"></i> Registrar Venta</button>
 									<button type="reset" class="secondary-btn"><i class="fas fa-times"></i> Limpiar</button>
-								</div>
+								</div> -->
 							</form>
 						</div>
 					</div>

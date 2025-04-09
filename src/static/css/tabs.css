@@ -2,27 +2,36 @@
  * Estilos para navegación por pestañas en formularios modales
  */
 
-.tabs-container {
-	width: 100%;
-	margin-bottom: 20px;
+/* Asegurar que todos los elementos incluyan padding en su ancho */
+* {
+	box-sizing: border-box;
 }
 
-/* Contenido de las pestañas */
+.tabs-container {
+	position: relative;
+	width: 100%;
+	margin-bottom: 20px;
+	max-width: 100%;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+/* Contenido de las pestañas con mejor contención */
 .tab-content {
 	display: none;
-	animation: fadeEffect 0.5s;
-	padding: 10px 5px;
-	overflow: visible; /* Asegurarse de que el contenido no desborde */
-	overflow-x: hidden; /* Evitar scroll horizontal */
+	animation: fadeIn 0.5s ease;
+	padding: 10px 5px; /* Reduced horizontal padding */
+	overflow: visible; /* Changed to visible */
 	width: 100%;
 	box-sizing: border-box;
+	position: relative; /* Add positioning context */
 }
 
 .tab-content.active {
 	display: block;
 }
 
-/* Secciones de formulario dentro de las pestañas */
+/* Secciones de formulario dentro de las pestañas con contención estricta */
 .form-section {
 	margin-bottom: 24px;
 	padding: 20px;
@@ -31,17 +40,32 @@
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 	transition: all 0.3s ease;
 	width: 100%;
+	max-width: 100%;
 	box-sizing: border-box;
-	overflow-x: hidden;
+	overflow-x: hidden !important; /* Forzar contención */
+}
+
+/* Solución al problema de desbordamiento de campos */
+#ventasTabsContainer .form-section {
+	overflow: hidden !important; /* Forzar la contención del desbordamiento */
+	max-width: 100% !important;
+	box-sizing: border-box;
+	padding: 20px;
+	width: 100%;
+	position: relative; /* Add positioning context */
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* Estilo específico para las pestañas 1, 2 y 3 */
 #ventasTabsContainer .tab-content:nth-child(3) .form-section,
 #ventasTabsContainer .tab-content:nth-child(4) .form-section,
 #ventasTabsContainer .tab-content:nth-child(5) .form-section {
-	width: 85%;
+	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
+	box-sizing: border-box;
+	overflow-x: hidden;
 }
 
 .form-section:hover {
@@ -58,12 +82,28 @@
 	font-weight: 600;
 }
 
-/* Grid para formularios dentro de las secciones */
+/* Grid para formularios dentro de las secciones con ajuste mejorado */
 .form-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 	gap: 25px;
 	margin-bottom: 10px;
+	width: 100%; /* Ensure full width */
+	max-width: 100%; /* Prevent overflow */
+	box-sizing: border-box;
+	position: relative; /* Add positioning context */
+	overflow: hidden;
+}
+
+/* Solución al problema de desbordamiento de campos */
+#ventasTabsContainer .form-grid {
+	max-width: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	overflow: visible; /* Changed from hidden to visible */
+	padding: 0;
+	margin-left: 0;
+	margin-right: 0;
 }
 
 /* Grid para primera, segunda y tercera pestaña - anchos más compactos */
@@ -71,17 +111,22 @@
 .tab-content:nth-child(2) .form-grid,
 .tab-content:nth-child(3) .form-grid {
 	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-	gap: 30px;
+	gap: 20px;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	margin-left: 0;
+	margin-right: 0;
 }
 
 .tab-content:nth-child(3) .form-grid,
 .tab-content:nth-child(4) .form-grid,
 .tab-content:nth-child(5) .form-grid {
 	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-	gap: 30px;
-	max-width: 90%;
-	margin-left: auto;
-	margin-right: auto;
+	gap: 15px;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 /* Para asegurar que todos los campos son visibles en las diferentes pestañas */
@@ -91,33 +136,45 @@
 .tab-content:nth-child(4) .form-grid,
 .tab-content:nth-child(5) .form-grid {
 	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-	gap: 20px;
+	gap: 15px;
 	width: 100%;
+	max-width: 100%;
 	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 /* Sección documentos relacionados (primera pestaña) */
 #ventasTabsContainer .tab-content:nth-child(3) .form-section:nth-child(2) .form-grid {
-	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
 }
 
 /* Sección información económica (segunda pestaña) */
 #ventasTabsContainer .tab-content:nth-child(4) .form-section:nth-child(1) .form-grid {
-	max-width: 90%;
+	max-width: 100%;
+	width: 100%;
+	margin: 0;
 }
 
 /* Sección condiciones de pago (segunda pestaña) */
 #ventasTabsContainer .tab-content:nth-child(4) .form-section:nth-child(2) .form-grid {
-	max-width: 90%;
+	max-width: 100%;
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 25px;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 15px;
+	margin: 0;
+	width: 100%;
 }
 
 /* Sección datos del cliente (tercera pestaña) */
 #ventasTabsContainer .tab-content:nth-child(5) .form-section:nth-child(1) .form-grid {
-	max-width: 90%;
-	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	max-width: 100%;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	width: 100%;
+	margin: 0;
 }
 
 /* Grupo de form para cada input */
@@ -125,6 +182,18 @@
 	margin-bottom: 15px;
 	position: relative;
 	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	overflow: visible; /* Changed from hidden to visible */
+}
+
+/* Asegurar que los grupos de formulario estén perfectamente contenidos */
+.form-group {
+	max-width: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	overflow: visible; /* Changed from hidden to visible */
+	position: relative; /* Add positioning context */
 }
 
 .form-group label {
@@ -134,6 +203,7 @@
 	color: #444;
 }
 
+/* Campos de formulario con contención estricta */
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -146,9 +216,19 @@
 	box-sizing: border-box;
 }
 
+/* Asegurar que los campos de formulario no desborden sus contenedores */
+.form-group input,
+.form-group select,
+.form-group textarea {
+	max-width: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
 .form-group input:focus,
 .form-group select:focus,
-.form-group textarea:focus {
+form-group textarea:focus {
 	border-color: var(--primary-color, #1a237e);
 	box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
 	outline: none;
@@ -164,19 +244,19 @@
 .progress-indicator {
 	display: flex;
 	justify-content: space-between;
-	margin: 20px 0;
+	margin-bottom: 20px;
 	position: relative;
+	z-index: 10; /* Mayor que otros elementos para asegurar que sea clickeable */
 }
 
 .progress-indicator::before {
 	content: "";
 	position: absolute;
-	top: 50%;
+	top: 15px;
 	left: 0;
-	right: 0;
-	height: 1px;
-	background-color: #e0e0e0;
-	transform: translateY(-50%);
+	width: 100%;
+	height: 3px;
+	background: #e0e0e0;
 	z-index: 1;
 }
 
@@ -188,12 +268,15 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-weight: 600;
-	color: #666;
+	font-weight: bold;
+	color: #333;
 	position: relative;
 	z-index: 2;
-	cursor: pointer; /* Hacer los números clickeables */
-	transition: all 0.2s ease;
+	cursor: pointer !important;
+	transition: all 0.3s ease;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	user-select: none;
+	-webkit-tap-highlight-color: transparent; /* Eliminar highlight en móviles */
 }
 
 .progress-step:hover {
@@ -202,8 +285,9 @@
 }
 
 .progress-step.completed {
-	background-color: var(--secondary-color, #f39200);
-	color: #fff;
+	background-color: var(--primary-color, #4caf50);
+	color: white;
+	box-shadow: 0 2px 10px rgba(26, 35, 126, 0.3);
 }
 
 /* Tooltip mejorado para los steps */
@@ -222,6 +306,7 @@
 	opacity: 0;
 	visibility: hidden;
 	transition: all 0.2s ease;
+	z-index: 100;
 }
 
 .progress-step:hover::before {
@@ -241,96 +326,103 @@
 	}
 }
 
+/* Animación de entrada suave para el contenido de las pestañas */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
 /* Navegación entre pestañas */
 .tabs-navigation {
 	display: flex;
-	flex-wrap: nowrap;
+	flex-direction: row;
 	overflow-x: auto;
-	border-bottom: 2px solid #eaeaea;
-	margin-bottom: 20px;
-	scrollbar-width: none; /* Firefox */
-	-ms-overflow-style: none; /* IE and Edge */
-}
-
-/* Ocultar scrollbar para Chrome, Safari y Opera */
-.tabs-navigation::-webkit-scrollbar {
-	display: none;
+	-webkit-overflow-scrolling: touch;
+	padding-bottom: 5px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #e0e0e0;
+	width: 100%;
+	justify-content: space-between;
 }
 
 .tab-button {
-	padding: 12px 20px;
-	border: none;
-	background: none;
-	font-weight: 600;
-	color: #666;
-	cursor: pointer;
-	position: relative;
+	padding: 10px 15px;
+	font-size: 0.95rem;
 	white-space: nowrap;
-	transition: all 0.2s ease;
+	flex: 1;
+	text-align: center;
+	background-color: #f5f5f5;
+	color: #555;
+	border: none;
+	border-radius: 4px 4px 0 0;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	margin: 0 2px;
+	position: relative;
+	bottom: -1px;
+	border: 1px solid transparent;
+	z-index: 5; /* Asegurar que está por encima */
+	pointer-events: auto !important; /* Forzar que sea clickeable */
 }
 
 .tab-button:hover {
-	color: var(--primary-color, #1a237e);
+	background-color: #e0e0e0;
 }
 
 .tab-button.active {
+	background-color: white;
 	color: var(--primary-color, #1a237e);
+	border: 1px solid #e0e0e0;
+	border-bottom: 2px solid white;
+	font-weight: 600;
 }
 
-.tab-button.active::after {
-	content: "";
-	position: absolute;
-	bottom: -2px;
-	left: 0;
-	width: 100%;
-	height: 2px;
-	background-color: var(--primary-color, #1a237e);
-}
-
-.tab-button .tab-icon {
+/* Asegurar que el icono tenga espacio adecuado */
+.tab-icon {
 	margin-right: 8px;
-	opacity: 0.7;
-}
-
-.tab-button.active .tab-icon {
-	opacity: 1;
 }
 
 /* Navegación entre pestañas */
 .tabs-actions {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	gap: 15px;
-	margin-top: 30px;
-	padding-top: 20px;
-	border-top: 1px solid #eaeaea;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 20px;
+	flex-wrap: wrap;
 }
 
-/* Ajustes para los botones de acción */
-.tabs-actions button {
-	min-height: 42px;
+/* Contenedor de botones en las pestañas */
+.tab-buttons-container {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	flex-wrap: wrap;
 }
 
 /* En la primera pestaña, alinear hacia la derecha */
 .tab-content:first-child .tabs-actions {
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr 2fr;
 	justify-content: end;
 }
 
-.tab-content:first-child .tabs-actions .btn-next-tab {
-	grid-column: 2;
+.tab-content:first-child .tab-buttons-container {
+	justify-content: flex-end;
 }
 
 /* En pestañas intermedias, distribuir anterior y siguiente */
 .tab-content:not(:first-child):not(:last-child) .tabs-actions {
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr 2fr;
 }
 
-.tab-content:not(:first-child):not(:last-child) .tabs-actions .btn-prev-tab {
+.tab-content:not(:first-child):not(:last-child) .btn-prev-tab {
 	justify-self: start;
 }
 
-.tab-content:not(:first-child):not(:last-child) .tabs-actions .btn-next-tab {
+.tab-content:not(:first-child):not(:last-child) .tab-buttons-container {
 	justify-self: end;
 }
 
@@ -340,23 +432,126 @@
 }
 
 .tab-content:last-child .final-tab-actions {
-	grid-column: 2 / span 2;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 10px;
-}
-
-/* Botones de acción en la última pestaña */
-.final-tab-actions {
 	display: flex;
 	gap: 10px;
-	flex-grow: 1;
 	justify-content: flex-end;
+	flex-wrap: wrap;
 }
 
-/* Ocultar los botones de acción del final del formulario cuando están en la última pestaña */
-.hidden-actions {
-	display: none;
+/* Asegurar que el botón de limpiar es consistente en todas las pestañas */
+.btn-clean.common-reset {
+	background-color: #f5f5f5;
+	color: #555;
+	transition: all 0.3s ease;
+}
+
+.btn-clean.common-reset:hover {
+	background-color: #e0e0e0;
+}
+
+/* Estilos para botones Anterior/Siguiente - Ajustados para ser idénticos en tamaño */
+.btn-next-tab,
+.btn-prev-tab,
+.btn-clean {
+	padding: 8px 15px;
+	border-radius: 4px;
+	transition: all 0.3s ease;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer !important;
+	pointer-events: auto !important;
+	position: relative;
+	z-index: 10;
+	min-width: 110px; /* Mismo ancho mínimo para todos los botones */
+	height: 38px; /* Altura fija para todos */
+	justify-content: center;
+	border: none;
+	margin: 0 5px; /* Espaciado horizontal uniforme */
+	font-size: 0.9rem;
+}
+
+.btn-next-tab {
+	background-color: var(--primary-color, #1a237e);
+	color: white;
+}
+
+.btn-next-tab:hover {
+	background-color: #111a60;
+	box-shadow: 0 2px 8px rgba(26, 35, 126, 0.3);
+}
+
+.btn-prev-tab {
+	background-color: #f0f0f0;
+	color: #555;
+	min-width: 110px; /* Asegurar mismo ancho que los otros botones */
+	height: 38px; /* Misma altura */
+}
+
+.btn-prev-tab:hover {
+	background-color: #e0e0e0;
+}
+
+.btn-clean {
+	background-color: #f5f5f5;
+	color: #555;
+}
+
+.btn-clean:hover {
+	background-color: #e0e0e0;
+}
+
+/* Asegurar que los botones tengan el mismo tamaño en la barra de acciones */
+.tabs-actions {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 20px;
+	flex-wrap: wrap;
+}
+
+/* Contenedor de botones para mantenerlos agrupados */
+.tab-buttons-container {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px; /* Espacio uniforme entre botones */
+	flex-wrap: wrap;
+}
+
+/* Efecto de click para botones */
+.btn-next-tab:active,
+.btn-prev-tab:active,
+.progress-step:active {
+	transform: scale(0.98);
+}
+
+/* Ajustes para los botones de navegación de pestañas */
+.btn-prev-tab,
+.btn-next-tab {
+	min-width: 100px !important;
+	padding: 8px 15px !important;
+	font-size: 14px !important;
+	height: auto !important;
+	width: auto !important;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Asegurar que todos los botones de navegación tienen el mismo tamaño */
+.tabs-actions {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+	gap: 10px;
+}
+
+.tabs-actions button {
+	min-width: 100px !important;
+	margin: 0 !important;
+	flex: 0 0 auto !important;
 }
 
 /* Ajustes para móviles */
@@ -441,17 +636,14 @@
 
 	.tabs-navigation {
 		overflow-x: auto;
-		-webkit-overflow-scrolling: touch;
-		padding-bottom: 5px;
-		display: flex;
-		margin-bottom: 15px;
+		justify-content: start;
+		padding-bottom: 10px;
 	}
 
 	.tab-button {
-		padding: 10px 15px;
+		flex: 0 0 auto;
 		font-size: 0.9rem;
-		white-space: nowrap;
-		flex-shrink: 0;
+		padding: 8px 12px;
 	}
 
 	/* Para dispositivos móviles, apilar los botones en la última pestaña */
@@ -556,5 +748,56 @@
 		max-width: 95%;
 		margin-left: auto;
 		margin-right: auto;
+	}
+}
+
+/* Ajustar espaciado interno para evitar problemas de desbordamiento */
+@media (max-width: 768px) {
+	#ventasTabsContainer .form-section {
+		padding: 15px;
+		width: 100% !important;
+		max-width: 100% !important;
+		margin: 0 0 15px 0;
+		box-sizing: border-box;
+		overflow: visible !important; /* Ensure content is visible */
+	}
+
+	#ventasTabsContainer .form-grid {
+		padding: 0;
+		gap: 10px;
+		width: 100%;
+		max-width: 100%;
+	}
+
+	.form-group {
+		margin-bottom: 10px;
+		width: 100%;
+	}
+
+	/* Campos de texto con ancho completo y sin overflow */
+	.form-group input,
+	.form-group select,
+	.form-group textarea {
+		width: 100%;
+		box-sizing: border-box;
+		max-width: 100%; /* Prevent overflow */
+	}
+
+	.form-section {
+		padding: 10px;
+		width: 95% !important;
+		margin-left: auto;
+		margin-right: auto;
+		box-sizing: border-box;
+		overflow: hidden;
+	}
+
+	.form-grid {
+		grid-template-columns: 1fr !important;
+		gap: 12px;
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
+		overflow: hidden;
 	}
 }

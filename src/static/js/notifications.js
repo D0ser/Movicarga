@@ -1,5 +1,21 @@
 class NotificationManager {
     static show(message, type = 'info') {
+        // Verificar si SweetAlert2 está disponible y usarlo si es posible
+        if (window.Swal) {
+            Swal.fire({
+                title: this.getNotificationTitle(type),
+                text: message,
+                icon: type,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+            return;
+        }
+        
+        // De lo contrario, usar notificaciones personalizadas
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.innerHTML = `
@@ -12,13 +28,16 @@ class NotificationManager {
         document.body.appendChild(notification);
 
         // Animación de entrada
-        setTimeout(() => notification.classList.add('show'), 100);
+        setTimeout(() => notification.classList.add('show'), 10);
 
         // Auto cerrar después de 3 segundos
         setTimeout(() => {
             notification.classList.remove('show');
             setTimeout(() => notification.remove(), 300);
         }, 3000);
+        
+        // También registrar en la consola para debug
+        console.log(`[${type.toUpperCase()}] ${message}`);
     }
 
     static getIcon(type) {
@@ -29,6 +48,16 @@ class NotificationManager {
             info: 'fa-info-circle'
         };
         return icons[type] || icons.info;
+    }
+    
+    static getNotificationTitle(type) {
+        switch(type) {
+            case 'success': return '¡Éxito!';
+            case 'error': return 'Error';
+            case 'warning': return 'Advertencia';
+            case 'info': return 'Información';
+            default: return '';
+        }
     }
 
     static success(message) {
