@@ -1,0 +1,108 @@
+/**
+ * Estilos específicos para los indicadores numéricos (antiguo progress-steps)
+ */
+
+/* Contenedor de los indicadores numéricos */
+.progress-indicator {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+	position: relative;
+	padding: 0 15px;
+}
+
+/* Línea de progreso en el fondo */
+.progress-line {
+	position: absolute;
+	top: 15px;
+	left: 0;
+	width: 100%;
+	height: 3px;
+	background: #e0e0e0;
+	z-index: 1;
+}
+
+/* Botones indicadores numéricos */
+.tab-indicator-button {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background-color: #e0e0e0;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	color: #333;
+	position: relative;
+	z-index: 10;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	padding: 0;
+	margin: 0;
+}
+
+.tab-indicator-button:hover {
+	transform: scale(1.1);
+	background-color: #d0d0d0;
+}
+
+.tab-indicator-button.completed {
+	background-color: var(--primary-color, #1a237e);
+	color: white;
+	box-shadow: 0 2px 10px rgba(26, 35, 126, 0.3);
+}
+
+/* Tooltip para mostrar el título */
+.tab-indicator-button::before {
+	content: attr(title);
+	position: absolute;
+	bottom: -30px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: rgba(0, 0, 0, 0.7);
+	color: white;
+	padding: 5px 10px;
+	border-radius: 4px;
+	font-size: 0.8rem;
+	white-space: nowrap;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.2s ease;
+	z-index: 20;
+}
+
+.tab-indicator-button:hover::before {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Efecto de pulsación al hacer clic */
+.tab-indicator-button:active {
+	transform: scale(0.95);
+}
+
+/* Media query para mejorar la experiencia en dispositivos móviles */
+@media (max-width: 768px) {
+	.tab-indicator-button {
+		width: 36px;
+		height: 36px;
+		font-size: 16px;
+	}
+
+	/* Área de toque más grande en móviles */
+	.tab-indicator-button::after {
+		content: "";
+		position: absolute;
+		top: -10px;
+		right: -10px;
+		bottom: -10px;
+		left: -10px;
+	}
+
+	/* Ocultar tooltips en móviles */
+	.tab-indicator-button::before {
+		display: none;
+	}
+}

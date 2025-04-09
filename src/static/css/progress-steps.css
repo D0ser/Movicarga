@@ -1,0 +1,60 @@
+/**
+ * Estilos específicos para mejorar la interactividad de los progress-steps
+ */
+
+/* Mejorar visibilidad e interactividad de los progress steps */
+.progress-step {
+	cursor: pointer !important;
+	pointer-events: auto !important;
+	position: relative !important;
+	z-index: 100 !important;
+	-webkit-tap-highlight-color: rgba(26, 35, 126, 0.3) !important;
+	user-select: none;
+}
+
+/* Efecto visual al pasar el cursor */
+.progress-step:hover {
+	transform: scale(1.1);
+	background-color: #d0d0d0;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Efecto visual al hacer clic */
+.progress-step:active {
+	transform: scale(0.95);
+}
+
+/* Asegurarse de que el contenedor también permite interactuar con sus hijos */
+.progress-indicator {
+	position: relative;
+	z-index: 50;
+	pointer-events: auto !important;
+}
+
+/* Añadir un área de hit más grande para facilitar el clic en dispositivos táctiles */
+.progress-step::after {
+	content: "";
+	position: absolute;
+	top: -10px;
+	left: -10px;
+	right: -10px;
+	bottom: -10px;
+	z-index: -1;
+}
+
+/* Animación de pulso para feedback visual */
+@keyframes pulse-effect {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.2);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.progress-step.pulse-effect {
+	animation: pulse-effect 0.3s ease;
+}

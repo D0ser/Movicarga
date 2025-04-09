@@ -1,0 +1,77 @@
+/**
+ * Correcciones específicas para solucionar problemas de interactividad
+ * en las pestañas y los progress steps
+ */
+
+/* Asegurar que los botones de pestañas sean interactivos */
+.tab-button {
+	cursor: pointer !important;
+	pointer-events: auto !important;
+	position: relative !important;
+	z-index: 10 !important;
+	user-select: none !important;
+}
+
+/* Mejorar interactividad de los progress steps */
+.progress-step {
+	width: 30px !important;
+	height: 30px !important;
+	border-radius: 50% !important;
+	background-color: #e0e0e0 !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	font-weight: bold !important;
+	color: #333 !important;
+	position: relative !important;
+	z-index: 100 !important;
+	cursor: pointer !important;
+	pointer-events: auto !important;
+	-webkit-tap-highlight-color: rgba(26, 35, 126, 0.3) !important;
+}
+
+/* Añadir área de hit más grande para los progress steps */
+.progress-step::after {
+	content: "";
+	position: absolute;
+	top: -10px;
+	left: -10px;
+	right: -10px;
+	bottom: -10px;
+	z-index: -1;
+}
+
+/* Estilos para progress steps hover y active */
+.progress-step:hover {
+	transform: scale(1.1);
+	background-color: #d0d0d0;
+}
+
+.progress-step:active {
+	transform: scale(0.95);
+}
+
+/* Asegurar visibilidad del indicador de progreso */
+.progress-indicator {
+	position: relative;
+	z-index: 10;
+	pointer-events: auto !important;
+	margin-bottom: 20px;
+}
+
+/* Asegurar que los botones de navegación sean interactivos */
+.btn-next-tab,
+.btn-prev-tab {
+	cursor: pointer !important;
+	pointer-events: auto !important;
+	position: relative !important;
+	z-index: 10 !important;
+	user-select: none !important;
+}
+
+/* Mejor visualización de estado completado */
+.progress-step.completed {
+	background-color: var(--primary-color, #1a237e) !important;
+	color: white !important;
+	box-shadow: 0 2px 10px rgba(26, 35, 126, 0.3) !important;
+}

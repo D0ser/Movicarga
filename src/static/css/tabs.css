@@ -272,10 +272,11 @@ form-group textarea:focus {
 	color: #333;
 	position: relative;
 	z-index: 2;
-	cursor: pointer !important;
+	cursor: pointer !important; /* Asegurar que el cursor cambie al pasar el mouse */
 	transition: all 0.3s ease;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	user-select: none;
+	user-select: none; /* Evitar selección de texto accidental */
+	pointer-events: auto; /* Habilitar clics */
 	-webkit-tap-highlight-color: transparent; /* Eliminar highlight en móviles */
 }
 
@@ -312,6 +313,23 @@ form-group textarea:focus {
 .progress-step:hover::before {
 	opacity: 1;
 	visibility: visible;
+}
+
+/* Mejorar interactividad de los progress steps para asegurar que sean clickeables */
+.progress-step {
+	pointer-events: auto !important;
+	cursor: pointer !important;
+	z-index: 10 !important;
+	position: relative !important;
+}
+
+.progress-step:hover {
+	transform: scale(1.1);
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.progress-step:active {
+	transform: scale(0.95);
 }
 
 /* Animación de cambio entre pestañas */

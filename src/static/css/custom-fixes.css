@@ -1,0 +1,33 @@
+/**
+ * Correcciones específicas para problemas de interactividad
+ */
+
+/* Asegurar visibilidad adecuada de los botones en las tablas */
+td.actions button {
+	display: inline-flex !important;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	z-index: 5;
+	margin: 2px;
+	padding: 6px 8px !important;
+	opacity: 1 !important;
+	visibility: visible !important;
+	pointer-events: auto !important;
+}
+
+/* Corregir problemas con el botón Nueva Venta */
+#btnNuevaVenta {
+	pointer-events: auto !important;
+	cursor: pointer !important;
+	z-index: 1000 !important;
+	position: relative !important;
+}
+
+/* Evitar problemas con modales superpuestos */
+.modal {
+	z-index: 2000 !important;
+}
+.modal-content {
+	z-index: 2001 !important;
+}

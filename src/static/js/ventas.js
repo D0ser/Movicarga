@@ -240,126 +240,193 @@ class VentasManager {
     }
 
     setupTabsEvents() {
-        // Asegurar que los botones de las pestañas funcionen correctamente
-        const tabButtons = document.querySelectorAll('#ventasTabsContainer .tab-button');
-        tabButtons.forEach((button, index) => {
-            // Eliminar eventos previos
-            const newButton = button.cloneNode(true);
-            button.parentNode.replaceChild(newButton, button);
-            
-            // Añadir nuevo evento de clic con manejo directo
-            newButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                console.log(`Tab button ${index} clicked`);
-                
-                // Si existe TabsManager, usar su método directamente
-                if (window.TabsManager && window.tabsManager) {
-                    window.tabsManager.showTab(index);
-                } else if (window.TabsManager && TabsManager.currentInstance) {
-                    // Usar la instancia estática si está disponible
-                    TabsManager.currentInstance.showTab(index);
-                } else {
-                    console.error("No hay instancia de TabsManager disponible");
-                    // Fallback: manejar manualmente el cambio de pestaña
-                    this.manualTabChange(index);
-                }
-            });
-        });
-
-        // Manejar los botones de navegación de pestañas
-        const nextButtons = document.querySelectorAll('.btn-next-tab');
-        nextButtons.forEach(button => {
-            const newButton = button.cloneNode(true);
-            if (button.parentNode) {
-                button.parentNode.replaceChild(newButton, button);
-            }
-            
-            newButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log("Next tab button clicked");
-                
-                if (window.TabsManager && window.tabsManager) {
-                    window.tabsManager.nextTab();
-                } else if (window.TabsManager && TabsManager.currentInstance) {
-                    TabsManager.currentInstance.nextTab();
-                }
-            });
-        });
+        console.log("Configurando eventos de pestañas simplificado");
         
-        const prevButtons = document.querySelectorAll('.btn-prev-tab');
-        prevButtons.forEach(button => {
-            const newButton = button.cloneNode(true);
-            if (button.parentNode) {
-                button.parentNode.replaceChild(newButton, button);
-            }
-            
-            newButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log("Previous tab button clicked");
-                
-                if (window.TabsManager && window.tabsManager) {
-                    window.tabsManager.prevTab();
-                } else if (window.TabsManager && TabsManager.currentInstance) {
-                    TabsManager.currentInstance.prevTab();
-                }
-            });
-        });
+        // Eliminar instancia previa si existe
+        if (window.tabsManager && typeof window.tabsManager.destroy === 'function') {
+            window.tabsManager.destroy();
+        }
         
-        // También agregar evento a los progress steps
-        const progressSteps = document.querySelectorAll('.progress-step');
-        progressSteps.forEach((step, index) => {
-            step.addEventListener('click', (e) => {
-                e.preventDefault();
-                console.log(`Progress step ${index} clicked`);
-                
-                if (window.TabsManager && window.tabsManager) {
-                    window.tabsManager.showTab(index);
-                } else if (window.TabsManager && TabsManager.currentInstance) {
-                    TabsManager.currentInstance.showTab(index);
+        try {
+            // Crear nueva instancia de TabsManager
+            window.tabsManager = new TabsManager('#ventasTabsContainer');
+            
+            // Configurar eventos para las pestañas manualmente
+            const tabButtons = document.querySelectorAll('#ventasTabsContainer .tab-button');
+            tabButtons.forEach((button, index) => {
+                // Remover eventos antiguos
+                const newButton = button.cloneNode(true);
+                if (button.parentNode) {
+                    button.parentNode.replaceChild(newButton, button);
                 }
+                
+                // Agregar evento click con efectos visuales
+                newButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log(`Tab button ${index} clicked`);
+                    
+                    // Efecto visual inmediato
+                    this.cambiarTabManualmente(index);
+                });
             });
-        });
+            
+            // Configurar botones anterior y siguiente para que actualicen todos los elementos
+            const prevButtons = document.querySelectorAll('.btn-prev-tab');
+            const nextButtons = document.querySelectorAll('.btn-next-tab');
+            
+            prevButtons.forEach(button => {
+                const newButton = button.cloneNode(true);
+                if (button.parentNode) {
+                    button.parentNode.replaceChild(newButton, button);
+                }
+                
+                newButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Obtener el índice de pestaña actual
+                    const currentTabContent = document.querySelector('#ventasTabsContainer .tab-content.active');
+                    const allTabContents = Array.from(document.querySelectorAll('#ventasTabsContainer .tab-content'));
+                    const currentIndex = allTabContents.indexOf(currentTabContent);
+                    
+                    if (currentIndex > 0) {
+                        this.cambiarTabManualmente(currentIndex - 1);
+                    }
+                });
+            });
+            
+            nextButtons.forEach(button => {
+                const newButton = button.cloneNode(true);
+                if (button.parentNode) {
+                    button.parentNode.replaceChild(newButton, button);
+                }
+                
+                newButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Obtener el índice de pestaña actual
+                    const currentTabContent = document.querySelector('#ventasTabsContainer .tab-content.active');
+                    const allTabContents = Array.from(document.querySelectorAll('#ventasTabsContainer .tab-content'));
+                    const currentIndex = allTabContents.indexOf(currentTabContent);
+                    
+                    if (currentIndex < allTabContents.length - 1) {
+                        this.cambiarTabManualmente(currentIndex + 1);
+                    }
+                });
+            });
+            
+            // Aplicar estilos visuales directamente
+            this.aplicarEstilosVisualesDirectos();
+        } catch (error) {
+            console.error("Error al inicializar TabsManager:", error);
+        }
     }
-    
+
+    // Ya no necesitamos estos métodos, eliminarlos o dejarlos vacíos
+    configurarTabsClicks() {
+        // Ahora manejado por TabsManager
+    }
+
+    reemplazarProgressStepsConBotones() {
+        // Ahora manejado por TabsManager
+    }
+
+    configurarBotonesNavegacion() {
+        // Ahora manejado por TabsManager
+    }
+
+    // Método auxiliar para cambiar a una pestaña específica
+    cambiarATab(index) {
+        console.log(`Cambiando a pestaña ${index}`);
+        if (window.tabsManager) {
+            window.tabsManager.showTab(index);
+            
+            // Actualizar el título móvil para reflejar la pestaña actual
+            const mobileTitle = document.querySelector('.mobile-tab-title');
+            const activeButton = document.querySelector('#ventasTabsContainer .tab-button.active');
+            if (mobileTitle && activeButton) {
+                mobileTitle.textContent = activeButton.textContent.trim();
+            }
+            
+            // Agregar feedback visual directo para los progress steps
+            const progressSteps = document.querySelectorAll('#ventasTabsContainer .progress-step');
+            progressSteps.forEach((step, i) => {
+                if (i <= index) {
+                    step.classList.add('completed');
+                    step.style.backgroundColor = 'var(--primary-color, #1a237e)';
+                    step.style.color = 'white';
+                    step.style.boxShadow = '0 2px 10px rgba(26, 35, 126, 0.3)';
+                } else {
+                    step.classList.remove('completed');
+                    step.style.backgroundColor = '#e0e0e0';
+                    step.style.color = '#333';
+                    step.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+                }
+            });
+        } else {
+            this.cambiarTabManualmente(index);
+        }
+    }
+
     // Método de respaldo para cambios de pestaña si TabsManager falla
-    manualTabChange(index) {
-        // Ocultar todas las pestañas
-        const tabContents = document.querySelectorAll('#ventasTabsContainer .tab-content');
-        tabContents.forEach(tab => {
-            tab.classList.remove('active');
+    cambiarTabManualmente(index) {
+        console.log(`Cambiando manualmente a pestaña ${index}`);
+        
+        // 1. Ocultar todas las pestañas
+        const tabs = document.querySelectorAll('#ventasTabsContainer .tab-content');
+        tabs.forEach(tab => {
             tab.style.display = 'none';
+            tab.classList.remove('active');
         });
         
-        // Desactivar todos los botones
-        const tabButtons = document.querySelectorAll('#ventasTabsContainer .tab-button');
-        tabButtons.forEach(btn => {
-            btn.classList.remove('active');
-        });
-        
-        // Activar la pestaña seleccionada
-        if (tabContents[index]) {
-            tabContents[index].classList.add('active');
-            tabContents[index].style.display = 'block';
+        // 2. Mostrar la pestaña seleccionada
+        if (tabs[index]) {
+            tabs[index].style.display = 'block';
+            tabs[index].classList.add('active');
         }
         
-        // Activar el botón correspondiente
-        if (tabButtons[index]) {
-            tabButtons[index].classList.add('active');
-        }
-        
-        // Actualizar los indicadores de progreso
-        const progressSteps = document.querySelectorAll('#ventasTabsContainer .progress-step');
-        progressSteps.forEach((step, i) => {
-            if (i <= index) {
-                step.classList.add('completed');
+        // 3. Actualizar botones de pestañas con estilos directos
+        const buttons = document.querySelectorAll('#ventasTabsContainer .tab-button');
+        buttons.forEach((btn, i) => {
+            if (i === index) {
+                btn.classList.add('active');
+                btn.style.backgroundColor = 'white';
+                btn.style.color = 'var(--primary-color, #1a237e)';
+                btn.style.fontWeight = 'bold';
+                btn.style.borderBottom = '2px solid var(--primary-color, #1a237e)';
             } else {
-                step.classList.remove('completed');
+                btn.classList.remove('active');
+                btn.style.backgroundColor = '#f5f5f5';
+                btn.style.color = '#555';
+                btn.style.fontWeight = 'normal';
+                btn.style.borderBottom = '1px solid #e0e0e0';
             }
         });
+        
+        // 4. Actualizar indicadores de progreso con estilos visuales directos
+        const indicators = document.querySelectorAll('#ventasTabsContainer .progress-step');
+        indicators.forEach((indicator, i) => {
+            if (i <= index) {
+                indicator.classList.add('completed');
+                indicator.style.backgroundColor = 'var(--primary-color, #1a237e)';
+                indicator.style.color = 'white';
+                indicator.style.boxShadow = '0 2px 10px rgba(26, 35, 126, 0.3)';
+            } else {
+                indicator.classList.remove('completed');
+                indicator.style.backgroundColor = '#e0e0e0';
+                indicator.style.color = '#333';
+                indicator.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+            }
+        });
+        
+        // Actualizar el título móvil para reflejar la pestaña actual
+        const mobileTitle = document.querySelector('.mobile-tab-title');
+        const activeButton = document.querySelector('#ventasTabsContainer .tab-button.active');
+        if (mobileTitle && activeButton) {
+            mobileTitle.textContent = activeButton.textContent.trim();
+        }
     }
 
     setupModalEvents() {
@@ -419,20 +486,6 @@ class VentasManager {
         
         // Mostrar el modal
         this.mostrarModal(this.modalVentas);
-        
-        // Reiniciar las pestañas si existe el TabsManager
-        setTimeout(() => {
-            if (window.TabsManager) {
-                window.tabsManager = new TabsManager('#ventasTabsContainer');
-                this.setupTabsEvents();
-            }
-            
-            // Configurar los cálculos automáticos
-            this.setupCalculosAutomaticos();
-            
-            // Asegurar que los eventos de navegación de pestañas funcionan
-            this.asegurarEventosNavegacionPestanas();
-        }, 100);
     }
     
     editarVenta(id) {
@@ -562,7 +615,7 @@ class VentasManager {
             modal.classList.remove('show');
         });
     }
-
+    
     // Método para cambiar el tipo de filtro de fecha
     cambiarTipoFiltroFecha(tipo) {
         document.getElementById('filtroFecha').style.display = tipo === 'fecha' ? 'block' : 'none';
@@ -625,7 +678,7 @@ class VentasManager {
         
         this.renderizarVentasFiltradas();
     }
-
+    
     crearVentaPrueba() {
         // Crear una venta de ejemplo con datos predefinidos
         const fechaHoy = new Date();
@@ -678,7 +731,7 @@ class VentasManager {
         // Mostrar notificación
         NotificationManager.success('Venta de prueba añadida correctamente');
     }
-
+    
     setupPaginationEvents() {
         // Paginación
         const prevPageBtn = document.getElementById('prevPage');
@@ -701,26 +754,6 @@ class VentasManager {
         }
     }
 
-    // Método mejorado para cerrar modales
-    cerrarModales() {
-        const modales = document.querySelectorAll('.modal');
-        modales.forEach(modal => {
-            modal.classList.remove('show');
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300);
-        });
-        
-        document.body.style.overflow = 'auto';
-        
-        // Resetear estado de las pestañas si existe el gestor
-        if (window.tabsManager) {
-            setTimeout(() => {
-                window.tabsManager.resetTabs();
-            }, 300);
-        }
-    }
-
     // Método mejorado para mostrar modales de forma consistente
     mostrarModal(modal) {
         if (!modal) return;
@@ -728,29 +761,18 @@ class VentasManager {
         // Cerrar cualquier modal abierto primero para evitar conflictos
         this.cerrarModales();
         
-        // Esperar un poco para asegurar que los modales previos se hayan cerrado completamente
+        // Mostrar el modal
         setTimeout(() => {
-            // Deshabilitar scroll en el body para evitar el scroll debajo del modal
             document.body.style.overflow = 'hidden';
-            
-            // Asegurarse de que el modal esté centrado y visible
             modal.style.display = 'flex';
-            modal.style.opacity = '0'; // Iniciar invisible para la animación
-            
-            // En dispositivos móviles, asegurarse que el modal aparece desde arriba
-            if (window.innerWidth <= 768) {
-                window.scrollTo(0, 0);
-                modal.classList.add('mobile-view');
-            } else {
-                modal.classList.remove('mobile-view');
-            }
+            modal.style.opacity = '0';
             
             // Forzar reflow para que la animación funcione
             void modal.offsetWidth;
             
             // Añadir clase para mostrar con animación
             modal.classList.add('show');
-            modal.style.opacity = '1'; // Hacer visible con transición
+            modal.style.opacity = '1';
             
             // Resetear posición de scroll del contenido del modal
             const modalContent = modal.querySelector('.modal-content');
@@ -758,32 +780,102 @@ class VentasManager {
                 modalContent.scrollTop = 0;
             }
             
-            // Inicializar TabsManager si estamos en el modal de formulario y está disponible
-            if (modal.id === 'ventaFormModal' && window.TabsManager) {
+            // Inicializar TabsManager si estamos en el modal de formulario
+            if (modal.id === 'ventaFormModal') {
                 setTimeout(() => {
                     try {
-                        window.tabsManager = new TabsManager('#ventasTabsContainer');
                         this.setupTabsEvents();
+                        this.setupCalculosAutomaticos();
+                        
+                        // Aplicar estilos directamente para mayor consistencia visual
+                        this.aplicarEstilosVisualesDirectos();
                     } catch (error) {
-                        console.error('Error al inicializar TabsManager:', error);
-                        Swal.fire({
-                            title: 'Error',
-                            text: 'Error al inicializar el formulario',
-                            icon: 'error',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
+                        console.error("Error al inicializar componentes del modal:", error);
                     }
-                }, 100);
+                }, 200); // Aumentado a 200ms para dar más tiempo
             }
             
-            // Optimizar campos
             this.optimizarCamposFormulario();
         }, 100);
     }
 
+    // Nuevo método para aplicar estilos visuales directamente
+    aplicarEstilosVisualesDirectos() {
+        console.log("Aplicando estilos visuales directos");
+        
+        // 1. Estilizar botones de pestañas
+        const tabButtons = document.querySelectorAll('#ventasTabsContainer .tab-button');
+        const activeTab = tabButtons[0]; // Primera pestaña por defecto
+        
+        tabButtons.forEach(btn => {
+            // Resetear estilos
+            btn.style.backgroundColor = '#f5f5f5';
+            btn.style.color = '#555';
+            btn.style.fontWeight = 'normal';
+            btn.style.borderBottom = '1px solid #e0e0e0';
+        });
+        
+        // Activar la primera pestaña
+        if (activeTab) {
+            activeTab.style.backgroundColor = 'white';
+            activeTab.style.color = 'var(--primary-color, #1a237e)';
+            activeTab.style.fontWeight = 'bold';
+            activeTab.style.borderBottom = '2px solid var(--primary-color, #1a237e)';
+            activeTab.classList.add('active');
+        }
+        
+        // 2. Estilizar progress steps
+        const progressSteps = document.querySelectorAll('#ventasTabsContainer .progress-step');
+        progressSteps.forEach((step, index) => {
+            // Resetear estilos
+            step.style.backgroundColor = '#e0e0e0';
+            step.style.color = '#333';
+            step.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+            
+            // Marcar el primer paso como completado
+            if (index === 0) {
+                step.style.backgroundColor = 'var(--primary-color, #1a237e)';
+                step.style.color = 'white';
+                step.style.boxShadow = '0 2px 10px rgba(26, 35, 126, 0.3)';
+                step.classList.add('completed');
+            }
+            
+            // Agregar efectos interactivos
+            step.style.cursor = 'pointer';
+            
+            // Eliminar y volver a añadir evento click para prevenir duplicados
+            const newStep = step.cloneNode(true);
+            step.parentNode.replaceChild(newStep, step);
+            
+            newStep.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log(`Progress step ${index} clicked`);
+                
+                // Efecto visual directo
+                newStep.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    newStep.style.transform = 'scale(1)';
+                }, 100);
+                
+                // Cambiar a esa pestaña
+                this.cambiarATab(index);
+            });
+        });
+        
+        // 3. Mostrar visualmente el contenido de la primera pestaña
+        const tabContents = document.querySelectorAll('#ventasTabsContainer .tab-content');
+        tabContents.forEach((tab, index) => {
+            if (index === 0) {
+                tab.style.display = 'block';
+                tab.classList.add('active');
+            } else {
+                tab.style.display = 'none';
+                tab.classList.remove('active');
+            }
+        });
+    }
+    
     // Nuevo método para asegurar que todos los campos son visibles
     optimizarCamposFormulario() {
         // Comprobar si estamos en móvil
@@ -813,58 +905,9 @@ class VentasManager {
     }
     
     asegurarEventosNavegacionPestanas() {
-        // Configurar eventos para los botones de navegación de pestañas si no están funcionando
-        const nextButtons = document.querySelectorAll('.btn-next-tab');
-        nextButtons.forEach(button => {
-            // Eliminar eventos anteriores
-            const newButton = button.cloneNode(true);
-            if (button.parentNode) {
-                button.parentNode.replaceChild(newButton, button);
-            }
-            
-            // Añadir nuevo evento
-            newButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (window.TabsManager && window.TabsManager.currentInstance) {
-                    window.TabsManager.currentInstance.nextTab();
-                }
-            });
-        });
-        
-        const prevButtons = document.querySelectorAll('.btn-prev-tab');
-        prevButtons.forEach(button => {
-            // Eliminar eventos anteriores
-            const newButton = button.cloneNode(true);
-            if (button.parentNode) {
-                button.parentNode.replaceChild(newButton, button);
-            }
-            
-            // Añadir nuevo evento
-            newButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (window.TabsManager && window.TabsManager.currentInstance) {
-                    window.TabsManager.currentInstance.prevTab();
-                }
-            });
-        });
-        
-        // También asegurarse de que los botones de submit y reset funcionen
-        const submitButtons = document.querySelectorAll('.final-tab-actions button[type="submit"]');
-        submitButtons.forEach(button => {
-            const newButton = button.cloneNode(true);
-            if (button.parentNode) {
-                button.parentNode.replaceChild(newButton, button);
-            }
-            
-            newButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                const form = newButton.closest('form');
-                if (form) {
-                    const submitEvent = new Event('submit', { cancelable: true });
-                    form.dispatchEvent(submitEvent);
-                }
-            });
-        });
+        // Este método ahora se deja vacío, ya que la navegación se maneja en setupTabsEvents
+        // Este cambio evita la duplicación de eventos que estaba ocurriendo
+        console.log("Usando setupTabsEvents para manejar la navegación de pestañas");
     }
     
     calcularFechaVencimiento() {
@@ -950,7 +993,7 @@ class VentasManager {
         const ventasGuardadas = localStorage.getItem('ventas');
         return ventasGuardadas ? JSON.parse(ventasGuardadas) : [];
     }
-
+    
     guardarVentas() {
         localStorage.setItem('ventas', JSON.stringify(this.ventas));
     }
@@ -1021,7 +1064,7 @@ class VentasManager {
             });
         }
     }
-
+    
     // Método para validar campos obligatorios
     validarCamposObligatorios() {
         // Validar campos prioritarios (se pueden agregar más según las necesidades)
@@ -1085,7 +1128,7 @@ class VentasManager {
         
         return true;
     }
-
+    
     recopilarDatosFormulario() {
         const conductorElement = document.getElementById('conductor');
         const placaTractoElement = document.getElementById('placaTracto');
@@ -1145,7 +1188,7 @@ class VentasManager {
             this.actualizarInfoPaginacion(0, 0, 0);
             return;
         }
-        
+            
         // Actualizar las ventas filtradas con todas las ventas
         this.ventasFiltradas = [...this.ventas];
         
@@ -1185,7 +1228,6 @@ class VentasManager {
                     <button class="eliminar-btn" title="Eliminar"><i class="fas fa-trash"></i></button>
                 </td>
             `;
-            
             this.ventasTable.appendChild(row);
         });
 
@@ -1194,7 +1236,7 @@ class VentasManager {
         
         // Actualizar los controles de paginación
         this.actualizarControlesPaginacion();
-
+        
         // Después de renderizar la tabla, inicializar el mejorador de tablas y asegurar que los botones sean visibles
         if (window.TableEnhancer) {
             setTimeout(() => {
@@ -1205,7 +1247,7 @@ class VentasManager {
             this.asegurarBotonesAccionesVisibles();
         }
     }
-    
+
     asegurarBotonesAccionesVisibles() {
         // Asegurar que los botones de acción sean visibles y tengan el estilo correcto
         document.querySelectorAll('td.actions').forEach(td => {
@@ -1276,10 +1318,9 @@ class VentasManager {
                     <button class="eliminar-btn" title="Eliminar"><i class="fas fa-trash"></i></button>
                 </td>
             `;
-            
             this.ventasTable.appendChild(row);
         });
-
+        
         // Actualizar la información de paginación
         this.actualizarInfoPaginacion(startIndex + 1, endIndex, this.ventasFiltradas.length);
         
@@ -1354,7 +1395,7 @@ class VentasManager {
         switch (estado) {
             case 'pagado': return 'estado-pagado';
             case 'anulado': return 'estado-anulado';
-            case 'pendiente':
+            case 'pendiente': return 'estado-pendiente';
             default: return 'estado-pendiente';
         }
     }
@@ -1386,7 +1427,7 @@ class VentasManager {
                 <p><strong>Fecha vencimiento:</strong> ${this.formatDate(venta.fechaVencimiento)}</p>
                 <p><strong>Estado:</strong> <span class="estado-badge ${this.getEstadoClass(venta.estado)}">${this.capitalizar(venta.estado)}</span></p>
             </div>
-            
+
             <div class="detail-section">
                 <h3>Datos del cliente</h3>
                 <p><strong>Empresa:</strong> ${venta.empresa || 'Cliente general'}</p>
@@ -1396,12 +1437,11 @@ class VentasManager {
             <div class="detail-section">
                 <h3>Datos de operación</h3>
                 <p><strong>Conductor:</strong> ${venta.conductor.nombre || 'No asignado'}</p>
-                <p><strong>Placa tracto:</strong> ${venta.placaTracto.placa || '-'}</p>
+                <p><strong>Placa tracto:</strong> ${venta.placaTracto.placa || '-'}</p>    
                 <p><strong>Placa carreta:</strong> ${venta.placaCarreta.placa || '-'}</p>
                 <p><strong>Observaciones:</strong> ${venta.observacion || '-'}</p>
             </div>
         `;
-        
         this.mostrarModal(this.ventaDetailModal);
     }
     
@@ -1453,9 +1493,9 @@ class VentasManager {
                 
                 if (!totalMontoInput.value) {
                     totalMontoInput.value = montoFlete.toFixed(2);
-                }
+                }   
             };
-
+            
             montoFleteInput.addEventListener('input', calcularTotales);
             detraccionInput.addEventListener('input', calcularTotales);
         }
@@ -1469,7 +1509,7 @@ class VentasManager {
             // Clonar el botón para eliminar eventos previos
             const nuevoBotonVenta = btnNuevaVenta.cloneNode(true);
             btnNuevaVenta.parentNode.replaceChild(nuevoBotonVenta, btnNuevaVenta);
-            
+                 
             // Configurar el evento click con máxima prioridad
             nuevoBotonVenta.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1490,7 +1530,7 @@ class VentasManager {
             // Usar delegación de eventos para manejar clicks en botones de editar
             tbody.addEventListener('click', (e) => {
                 const editarBtn = e.target.closest('.editar-btn');
-                if (editarBtn) {
+                if (editarBtn) {   
                     e.preventDefault();
                     e.stopPropagation();
                     
@@ -1512,13 +1552,13 @@ class VentasManager {
                 
                 const ventaId = verBtn.getAttribute('data-id');
                 if (ventaId) {
+                    console.log('Click en Ver Detalle Venta:', ventaId);
                     this.verDetallesVenta(ventaId);
                 }
             }
         });
     }
     
-    // Método para preparar el formulario para una nueva venta
     prepararNuevaVenta() {
         if (!this.ventasForm) return;
         

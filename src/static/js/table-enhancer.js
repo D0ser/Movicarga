@@ -5,41 +5,99 @@
  */
 class TableEnhancer {
     constructor() {
-        this.init();
+        this.enhancedTables = new Set(); // Para evitar procesar tablas más de una vez
     }
 
     init() {
-        document.addEventListener('DOMContentLoaded', () => {
-            this.setupTables();
-            // Manejar el evento de resize de la ventana
-            window.addEventListener('resize', () => {
-                this.checkScrollIndicators();
-                this.updateScrollHints();
+        this.setupTables();
+        
+        // Configurar observadores de cambio de tamaño
+        window.addEventListener('resize', () => {
+            this.checkScrollIndicators();
+            this.updateScrollHints();
+        });
+        
+        // Configurar observador de mutaciones para detectar cambios en el DOM
+        this.setupMutationObserver();
+        
+        console.log('TableEnhancer iniciado correctamente');
+    }
+    
+    setupMutationObserver() {
+        // Observador para detectar cuando se añaden o modifican tablas
+        const observer = new MutationObserver((mutations) => {
+            let shouldRefresh = false;
+            
+            mutations.forEach(mutation => {
+                // Verificar si se han añadido nodos relevantes
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.querySelector && 
+                           (node.querySelector('table') || 
+                            node.querySelector('.table-container'))) {
+                            shouldRefresh = true;
+                        }
+                    });
+                }
             });
+            
+            if (shouldRefresh) {
+                console.log("Cambios detectados en tablas, actualizando...");
+                setTimeout(() => this.setupTables(), 100);
+            }
+        });
+        
+        // Observar todo el documento para tablas nuevas
+        observer.observe(document.body, { 
+            childList: true, 
+            subtree: true,
+            attributes: false,
+            characterData: false
         });
     }
 
     setupTables() {
-        const tableContainers = document.querySelectorAll('.table-container');
+        const tables = document.querySelectorAll('table');
         
-        tableContainers.forEach(container => {
-            // Obtener la tabla dentro del contenedor
-            const table = container.querySelector('table');
-            if (!table) return;
+        tables.forEach(table => {
+            // Evitar procesar la misma tabla múltiples veces
+            if (this.enhancedTables.has(table)) return;
+            this.enhancedTables.add(table);
             
-            // Crear contenedor de desplazamiento
-            const scrollContainer = document.createElement('div');
-            scrollContainer.className = 'table-scroll-container';
+            // Comprobar si la tabla ya está en un contenedor
+            let container = table.closest('.table-container');
+            let scrollContainer;
             
-            // Mover la tabla dentro del contenedor de desplazamiento
-            table.parentNode.insertBefore(scrollContainer, table);
-            scrollContainer.appendChild(table);
+            if (!container) {
+                // Crear nuevo contenedor si no existe
+                container = document.createElement('div');
+                container.className = 'table-container';
+                
+                // Envolver la tabla con el contenedor
+                table.parentNode.insertBefore(container, table);
+                container.appendChild(table);
+            }
             
-            // Añadir los indicadores de desplazamiento
+            // Comprobar si ya existe un contenedor de desplazamiento
+            scrollContainer = container.querySelector('.table-scroll-container');
+            
+            if (!scrollContainer) {
+                // Crear contenedor de desplazamiento
+                scrollContainer = document.createElement('div');
+                scrollContainer.className = 'table-scroll-container';
+                
+                // Mover la tabla al contenedor de desplazamiento
+                container.appendChild(scrollContainer);
+                scrollContainer.appendChild(table);
+            }
+            
+            // Añadir indicadores de desplazamiento
             this.addScrollIndicators(container, scrollContainer);
             
             // Añadir pista visual de desplazamiento
-            this.addScrollHint(container, scrollContainer);
+            if (!container.dataset.scrollHint) {
+                this.addScrollHint(container, scrollContainer);
+            }
             
             // Mejorar celdas para mejor visualización
             this.enhanceTableCells(table);
@@ -167,13 +225,29 @@ class TableEnhancer {
     }
 
     enhanceTableCells(table) {
-        // Específicamente para la tabla de ventas
+        // Detectar tipo de tabla para aplicar mejoras específicas
         if (table.id === 'ventasTable') {
             this.enhanceVentasTable(table);
         } else {
-            // Para otras tablas, usar mejoras genéricas
             this.enhanceGenericTable(table);
         }
+        
+        // Garantizar visibilidad de botones en todas las celdas de acción
+        setTimeout(() => {
+            const actionCells = table.querySelectorAll('td.actions');
+            actionCells.forEach(cell => {
+                const buttons = cell.querySelectorAll('button');
+                buttons.forEach(btn => {
+                    // Aplicar estilos inline para mayor prioridad
+                    btn.style.display = 'inline-flex';
+                    btn.style.position = 'relative';
+                    btn.style.zIndex = '10';
+                    btn.style.opacity = '1';
+                    btn.style.visibility = 'visible';
+                    btn.style.pointerEvents = 'auto';
+                });
+            });
+        }, 100);
     }
     
     enhanceVentasTable(table) {
@@ -239,7 +313,8 @@ class TableEnhancer {
     }
 }
 
-// Inicializar el mejorador de tablas cuando se carga el documento
+// Inicializar TableEnhancer cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
-    new TableEnhancer();
+    window.tableEnhancer = new TableEnhancer();
+    window.tableEnhancer.init();
 });

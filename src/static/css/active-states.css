@@ -1,0 +1,71 @@
+/**
+ * Estilos mejorados para estados activos de pestañas e indicadores de progreso
+ */
+
+/* Estilos más fuertes para pestañas activas */
+.tab-button.active {
+	background-color: white !important;
+	color: var(--primary-color, #1a237e) !important;
+	font-weight: 600 !important;
+	border-bottom: 2px solid var(--primary-color, #1a237e) !important;
+	box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Asegurar que los indicadores de progreso completados sean visibles */
+.progress-step.completed {
+	background-color: var(--primary-color, #1a237e) !important;
+	color: white !important;
+	box-shadow: 0 2px 10px rgba(26, 35, 126, 0.3) !important;
+}
+
+/* Asegurar que los botones de pestaña son clickeables */
+.tab-button {
+	cursor: pointer !important;
+	pointer-events: auto !important;
+	position: relative !important;
+	z-index: 100 !important;
+}
+
+/* Feedback visual para los indicadores de progreso */
+.progress-step:active {
+	transform: scale(0.95) !important;
+	transition: transform 0.1s ease-in-out !important;
+}
+
+.progress-step.pulse {
+	animation: pulse-animation 0.3s ease-in-out;
+}
+
+@keyframes pulse-animation {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+/* Hacer que el contenido activo sea visible */
+.tab-content.active {
+	display: block !important;
+	animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+/* Estado activo para tab-button cuando se hace hover */
+.tab-button:hover {
+	background-color: #e0e0e0 !important;
+	transform: translateY(-1px);
+	transition: all 0.2s ease;
+}
